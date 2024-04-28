@@ -1,11 +1,14 @@
 int decal;
 Fenetres f1,f2;
+PImage wood;
 
 void setup() {
 size(1400,850);
 background(125, 166, 232);
 frameRate(30);
 decal = 0;
+wood = loadImage("woodtexture.jpg");
+
 
 f1=new Fenetres(580,350);
 f2 = new Fenetres(900,350);
