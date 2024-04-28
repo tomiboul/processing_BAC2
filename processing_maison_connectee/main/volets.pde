@@ -2,7 +2,7 @@ class Volets{
   float x;
   float y;
   boolean ouvert;
-  Volets(){
+  Volets(float x, float y){
   this.x=x;
   this.y=y;
   ouvert = false;
@@ -10,5 +10,9 @@ class Volets{
   
   boolean getOuvert(){
     return ouvert;
+  }
+  
+  void display(){
+  
   }
 }

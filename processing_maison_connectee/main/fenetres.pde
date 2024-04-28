@@ -8,6 +8,10 @@ class Fenetres{
     ouvert = false;
   }
   
+  void ouvreFerme(boolean prochainEtat){
+    ouvert = prochainEtat;
+  }
+  
   void display(){
     pushStyle();
     strokeWeight(3);

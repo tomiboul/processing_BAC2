@@ -8,4 +8,11 @@ class Ouvre_fenetre{
     }
     return false;
   }
+  
+  void run_ouvre_fenetre(int window){
+    if (ouvre_fenetre_gard(window)){
+      fenetres.get(window).ouvreFerme(true);
+    }
+  }
+  
 }

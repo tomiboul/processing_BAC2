@@ -1,6 +1,8 @@
 int decal;
-Fenetres f1,f2;
 PImage wood;
+ArrayList<Volets> volets = new ArrayList<Volets>();
+ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
+
 
 void setup() {
 size(1400,850);
@@ -9,9 +11,10 @@ frameRate(30);
 decal = 0;
 wood = loadImage("woodtexture.jpg");
 
-
-f1=new Fenetres(580,350);
-f2 = new Fenetres(900,350);
+volets.add(new Volets(580,350));
+volets.add(new Volets(900,350));
+fenetres.add(new Fenetres(580,350));
+fenetres.add(new Fenetres(900,350));
 }
 
 void draw(){
@@ -24,7 +27,8 @@ quad(550,300,850,200,1150,300,600,300);
 //inside
 fill(148, 83, 55);
 stroke(0);
-rect(530,500,300,200);
+//image(wood, 530,500,300,180);
+//rect(530,500,300,200);
 //door
 fill(87, 50, 34);
 rect(1000,500,100,200);
@@ -117,35 +121,11 @@ line(0,700,10,700);
 line(0,800,10,800);
 popStyle();
 //fin latte
-
-//test vitre -> passera en objet mais pour tester je fais dans draw pour el momento
-/*
-pushStyle();
-stroke(200);
-strokeWeight(8);
-rect(580,350,150,90);
-noStroke();
-fill(146, 235, 252);
-rect(582,352,147,87);
-stroke(200);
-strokeWeight(5);
-line(580,395,730,395);
-line(655,350,655,440);
-noStroke();
-fill(102, 226, 250);
-quad(627,353,653,353,653,393,610,393);
-quad(703,353,729,353,729,393,686,393);
-quad(627,398,653,398,653,439,610,439);
-quad(703,398,729,398,729,439,686,439);
-popStyle();
-*/
-f1.display();
-f2.display();
-/*rect(583,353,62,32);
-rect(583,385,62,33);
-rect(583,353,62,32);
-rect(583,353,62,32);
-*/
+//display volets et fenetres
+for (int i =0; i< fenetres.size();i++){
+  fenetres.get(i).display();
+  volets.get(i).display();
+}
 
 
 
