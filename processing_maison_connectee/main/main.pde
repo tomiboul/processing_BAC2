@@ -1,5 +1,5 @@
 int decal, num_event;
-PImage wood,tondeuseImage ;;
+PImage wood,tondeuseImage,voleurProcessing ;
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets;
@@ -8,6 +8,7 @@ Ferme_fenetre ferme_fenetre;
 Ouvre_volets ouvre_volets;
 Ferme_volets ferme_volets;
 tondeuse tondeuse;
+humain voleur;
 
 
 void setup() {
@@ -17,8 +18,12 @@ frameRate(30);
 decal = 0;
 num_event =-1;
 wood = loadImage("woodtexture.jpg");
-tondeuseImage = loadImage("tondeuseImage.jpg");
+
+tondeuseImage = loadImage("tondeuseImage.png");
 tondeuse = new tondeuse(100,700,tondeuseImage );
+
+voleurProcessing = loadImage("voleurProcessing.png");
+voleur = new humain(1100,500,voleurProcessing );
 
 b_ouvre_fenetres = new Button(40,40,140,50,"Ouvrir les fenêtres");
 ouvre_fenetre = new Ouvre_fenetre();
@@ -243,7 +248,7 @@ switch(num_event){
 text(hours, 100,100);
 text(minutes, 110,100);
 
-
+voleur.displayHumain();
 
 
 
