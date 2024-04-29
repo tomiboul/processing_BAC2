@@ -1,5 +1,5 @@
 int decal, num_event;
-PImage wood,tondeuseImage,voleurProcessing ;
+PImage wood,tondeuseImage,voleurProcessing,telephoneProcessing ;
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 boolean anim_volet_ouvre, anim_volet_ferme;
@@ -10,7 +10,7 @@ Ouvre_volets ouvre_volets;
 Ferme_volets ferme_volets;
 tondeuse tondeuse;
 humain voleur;
-
+telephone telephone;
 
 void setup() {
 size(1400,850);
@@ -26,18 +26,21 @@ tondeuse = new tondeuse(100,700,tondeuseImage );
 voleurProcessing = loadImage("voleurProcessing.png");
 voleur = new humain(1100,500,voleurProcessing );
 
+telephoneProcessing = loadImage("telephoneProcessing.png");
+telephone = new telephone(200,0,telephoneProcessing);
+
 anim_volet_ouvre = false;
 anim_volet_ferme = false;
-b_ouvre_fenetres = new Button(70,25,140,50,"Ouvrir les fenêtres");
+b_ouvre_fenetres = new Button(450,45,130,30,"Ouvrir les fenêtres");
 ouvre_fenetre = new Ouvre_fenetre();
-b_ferme_fenetres = new Button(210,25,140,50,"Fermer les fenêtres");
+b_ferme_fenetres = new Button(580,45,130,30,"Fermer les fenêtres");
 ferme_fenetre = new Ferme_fenetre();
-b_ferme_volets = new Button(70,75,140,50,"Fermer les volets");
+b_ferme_volets = new Button(450,75,130,30,"Fermer les volets");
 ferme_volets = new Ferme_volets();
-b_ouvre_volets = new Button(210,75,140,50,"Ouvrir les volets");
+b_ouvre_volets = new Button(580,75,130,30,"Ouvrir les volets");
 ouvre_volets = new Ouvre_volets();
-b_hours = new Button(70,125,140,50,"Heure + 1");
-b_minutes = new Button(210,125,140,50,"Minutes + 1");
+b_hours = new Button(1325,25,100,30,"Heure + 1");
+b_minutes = new Button(1325,55,100,30,"Minutes + 1");
 
 volets.add(new Volets(580,350,95));
 volets.add(new Volets(900,350,95));
@@ -208,6 +211,13 @@ rect(460,400,20,200);
 rect(480,400,20,200);
 popStyle();
 
+//telephone
+telephone.displayTelephone();
+//telephone - horloge
+text(hours, 265,30);
+text(":",280,30);
+text(minutes, 285,30);
+
 b_ouvre_fenetres.update_mouse();
 b_ouvre_fenetres.updatecolor(ouvre_fenetre.ouvre_fenetre_gard());
 b_ouvre_fenetres.display();
@@ -232,6 +242,8 @@ for (int i =0; i< fenetres.size();i++){
   fenetres.get(i).display();
   volets.get(i).display();
 }
+
+
 
 switch(num_event){
   case -1:
@@ -281,11 +293,7 @@ if (anim_volet_ferme){
   }
 }
 
-//horloge
-text(hours, 100,100);
-text(":",120,100);
-text(minutes, 125,100);
-
+//humain
 voleur.displayHumain();
 
 
