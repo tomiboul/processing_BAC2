@@ -1,7 +1,7 @@
 class Ferme_volets{
-  Ferme_volets(){  
+  Ferme_volets(){
   }
-  
+
   boolean ferme_volets_gard(){
     for (int i =0 ; i< fenetres.size();i++){
       if (fenetres.get(i).getOuvert() == true || volets.get(i).getOuvert()==false){
@@ -10,12 +10,14 @@ class Ferme_volets{
     }
     return true;
   }
-  
-  void run_ferme_volets(){
+
+  boolean run_ferme_volets(){
     if (ferme_volets_gard()){
       for (int i =0; i<volets.size();i++){
       volets.get(i).ouvreFerme(false);
       }
+      return true;
     }
+    return false;
   } 
 }

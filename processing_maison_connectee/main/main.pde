@@ -2,7 +2,8 @@ int decal, num_event;
 PImage wood,tondeuseImage,voleurProcessing ;
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
-Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets;
+boolean anim_volet_ouvre, anim_volet_ferme;
+Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes;
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
 Ouvre_volets ouvre_volets;
@@ -25,14 +26,18 @@ tondeuse = new tondeuse(100,700,tondeuseImage );
 voleurProcessing = loadImage("voleurProcessing.png");
 voleur = new humain(1100,500,voleurProcessing );
 
-b_ouvre_fenetres = new Button(40,40,140,50,"Ouvrir les fenêtres");
+anim_volet_ouvre = false;
+anim_volet_ferme = false;
+b_ouvre_fenetres = new Button(70,25,140,50,"Ouvrir les fenêtres");
 ouvre_fenetre = new Ouvre_fenetre();
-b_ferme_fenetres = new Button(80,200,140,50,"Fermer les fenêtres");
+b_ferme_fenetres = new Button(210,25,140,50,"Fermer les fenêtres");
 ferme_fenetre = new Ferme_fenetre();
-b_ferme_volets = new Button(0,0,140,50,"Fermer les volets");
+b_ferme_volets = new Button(70,75,140,50,"Fermer les volets");
 ferme_volets = new Ferme_volets();
-b_ouvre_volets = new Button(100,100,140,50,"Ouvrir les volets");
+b_ouvre_volets = new Button(210,75,140,50,"Ouvrir les volets");
 ouvre_volets = new Ouvre_volets();
+b_hours = new Button(70,125,140,50,"Heure + 1");
+b_minutes = new Button(210,125,140,50,"Minutes + 1");
 
 volets.add(new Volets(580,350,95));
 volets.add(new Volets(900,350,95));
@@ -215,8 +220,12 @@ b_ferme_volets.display();
 b_ouvre_volets.update_mouse();
 b_ouvre_volets.updatecolor(ouvre_volets.ouvre_volets_gard());
 b_ouvre_volets.display();
-
-
+b_hours.update_mouse();
+b_hours.updatecolor(true);
+b_hours.display();
+b_minutes.update_mouse();
+b_minutes.updatecolor(true);
+b_minutes.display();
 
 //display volets et fenetres
 for (int i =0; i< fenetres.size();i++){
@@ -236,17 +245,46 @@ switch(num_event){
     num_event = -1;
     break;
   case 2 :
-    ouvre_volets.run_ouvre_volets();
+    anim_volet_ouvre = ouvre_volets.run_ouvre_volets();
     num_event = -1;
     break;
   case 3 :
-    ferme_volets.run_ferme_volets();
+    anim_volet_ferme = ferme_volets.run_ferme_volets();
+    num_event = -1;
+    break;
+  case 4 :
+    increaseHours();
+    num_event = -1;
+    break;
+  case 5:
+    increaseMinutes();
     num_event = -1;
     break;
 }
 
+
+if (anim_volet_ouvre){
+  for (int i =0; i<volets.size();i++){
+    if (volets.get(i).getHeight() >= 10){
+      volets.get(i).changeHeight(-5);
+    }
+    else{anim_volet_ouvre=false;}
+  }
+}
+if (anim_volet_ferme){
+
+  for (int i =0; i<volets.size();i++){
+    if (volets.get(i).getHeight() <= 95){
+      println(i);
+      volets.get(i).changeHeight(5);
+    }else{anim_volet_ferme=false;}
+  }
+}
+
+//horloge
 text(hours, 100,100);
-text(minutes, 110,100);
+text(":",120,100);
+text(minutes, 125,100);
 
 voleur.displayHumain();
 
@@ -259,4 +297,6 @@ void mousePressed(){
   if (b_ferme_fenetres.select()){num_event = 1;}
   if (b_ouvre_volets.select()){num_event = 2;}
   if (b_ferme_volets.select()){num_event = 3;}
+  if (b_hours.select()){num_event=4;}
+  if (b_minutes.select()){num_event=5;}
 }

@@ -1,7 +1,7 @@
 class Ouvre_volets{
   Ouvre_volets(){
   }
-  
+
   boolean ouvre_volets_gard(){
     for (int i=0; i< volets.size();i++){
       if (volets.get(i).getOuvert() == true){
@@ -11,13 +11,14 @@ class Ouvre_volets{
     return true;
   }
 
-  void run_ouvre_volets(){
+  boolean run_ouvre_volets(){
     if(ouvre_volets_gard()){
       for (int i = 0; i< volets.size();i++){
         volets.get(i).ouvreFerme(true);
       }
+      return true;
     }
-  
+    return false;
   }
 
 
