@@ -2,16 +2,20 @@ class Ouvre_fenetre{
   Ouvre_fenetre(){  
   }
   
-  boolean ouvre_fenetre_gard(int window){
-    if (volets.get(window).getOuvert() == true){
-      return true;
+  boolean ouvre_fenetre_gard(){
+    for (int i =0; i< volets.size();i++){
+      if (volets.get(i).getOuvert() == false || fenetres.get(i).getOuvert()== true){
+        return false;
+      }
     }
-    return false;
+    return true;
   }
   
-  void run_ouvre_fenetre(int window){
-    if (ouvre_fenetre_gard(window)){
-      fenetres.get(window).ouvreFerme(true);
+  void run_ouvre_fenetre(){
+    if (ouvre_fenetre_gard()){
+      for (int i =0; i<fenetres.size();i++){
+      fenetres.get(i).ouvreFerme(true);
+      }
     }
   }
   

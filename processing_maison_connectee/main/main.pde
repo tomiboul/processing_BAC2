@@ -1,7 +1,13 @@
-int decal;
-PImage wood;
+int decal, num_event;
+PImage wood,tondeuseImage ;;
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
+Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets;
+Ouvre_fenetre ouvre_fenetre;
+Ferme_fenetre ferme_fenetre;
+Ouvre_volets ouvre_volets;
+Ferme_volets ferme_volets;
+tondeuse tondeuse;
 
 
 void setup() {
@@ -9,10 +15,22 @@ size(1400,850);
 background(125, 166, 232);
 frameRate(30);
 decal = 0;
+num_event =-1;
 wood = loadImage("woodtexture.jpg");
+tondeuseImage = loadImage("tondeuseImage.jpg");
+tondeuse = new tondeuse(100,700,tondeuseImage );
 
-volets.add(new Volets(580,350));
-volets.add(new Volets(900,350));
+b_ouvre_fenetres = new Button(40,40,140,50,"Ouvrir les fenêtres");
+ouvre_fenetre = new Ouvre_fenetre();
+b_ferme_fenetres = new Button(80,200,140,50,"Fermer les fenêtres");
+ferme_fenetre = new Ferme_fenetre();
+b_ferme_volets = new Button(0,0,140,50,"Fermer les volets");
+ferme_volets = new Ferme_volets();
+b_ouvre_volets = new Button(100,100,140,50,"Ouvrir les volets");
+ouvre_volets = new Ouvre_volets();
+
+volets.add(new Volets(580,350,95));
+volets.add(new Volets(900,350,95));
 fenetres.add(new Fenetres(580,350));
 fenetres.add(new Fenetres(900,350));
 }
@@ -69,20 +87,19 @@ rect(1400, 820,100,15);
 pushStyle();
 stroke(250,200,0);
 strokeWeight(4);
-line(200,20,200,40);
-line(245,20,150,130);
-line(240,120,150,30);
-line(200,80,200,140);
-line(130,70,270,70);
-line(200,10,200,40);
+line(70,20,70,40); //x = 200
+line(115,20,20,130);
+line(110,120,20,30);
+line(70,80,70,140);
+line(0,70,140,70);
+line(70,10,70,40);
 popStyle();
-
 //sun
 pushStyle();
 noStroke();
-circle(200,70,60);
+circle(70,70,60);
 fill(255,255,255);
-circle(200,70,50);
+circle(70,70,50);
 popStyle();
 
 //default grass
@@ -123,6 +140,7 @@ popStyle();
 //fin latte
 
 //barrière 
+pushStyle();
 fill(101,65,33);
 stroke(0);
 strokeWeight(1);
@@ -178,6 +196,21 @@ rect(420,400,20,200);
 rect(440,400,20,200);
 rect(460,400,20,200);
 rect(480,400,20,200);
+popStyle();
+
+b_ouvre_fenetres.update_mouse();
+b_ouvre_fenetres.updatecolor(ouvre_fenetre.ouvre_fenetre_gard());
+b_ouvre_fenetres.display();
+b_ferme_fenetres.update_mouse();
+b_ferme_fenetres.updatecolor(ferme_fenetre.ferme_fenetre_gard());
+b_ferme_fenetres.display();
+b_ferme_volets.update_mouse();
+b_ferme_volets.updatecolor(ferme_volets.ferme_volets_gard());
+b_ferme_volets.display();
+b_ouvre_volets.update_mouse();
+b_ouvre_volets.updatecolor(ouvre_volets.ouvre_volets_gard());
+b_ouvre_volets.display();
+
 
 
 //display volets et fenetres
@@ -186,18 +219,29 @@ for (int i =0; i< fenetres.size();i++){
   volets.get(i).display();
 }
 
+switch(num_event){
+  case -1:
+    break;
+  case 0 :
+    ouvre_fenetre.run_ouvre_fenetre();
+    num_event =-1;
+    break;
+  case 1 :
+    ferme_fenetre.run_ferme_fenetre();
+    num_event = -1;
+    break;
+  case 2 :
+    ouvre_volets.run_ouvre_volets();
+    num_event = -1;
+    break;
+  case 3 :
+    ferme_volets.run_ferme_volets();
+    num_event = -1;
+    break;
+}
 
-
-
-
-
-
-
-
-
-
-
-
+text(hours, 100,100);
+text(minutes, 110,100);
 
 
 
@@ -206,4 +250,8 @@ for (int i =0; i< fenetres.size();i++){
 }
 
 void mousePressed(){
+  if (b_ouvre_fenetres.select()){num_event = 0;}
+  if (b_ferme_fenetres.select()){num_event = 1;}
+  if (b_ouvre_volets.select()){num_event = 2;}
+  if (b_ferme_volets.select()){num_event = 3;}
 }
