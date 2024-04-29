@@ -1,5 +1,5 @@
 int decal, num_event;
-PImage wood,tondeuseImage,voleurProcessing,telephoneProcessing ;
+PImage wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing ;
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 boolean anim_volet_ouvre, anim_volet_ferme;
@@ -11,6 +11,10 @@ Ferme_volets ferme_volets;
 tondeuse tondeuse;
 humain voleur;
 telephone telephone;
+machineMaison laveLinge; 
+machineMaison laveVaisselle; 
+machineMaison secheLinge; 
+
 
 void setup() {
 size(1400,850);
@@ -20,14 +24,25 @@ decal = 0;
 num_event =-1;
 wood = loadImage("woodtexture.jpg");
 
+//jardin
 tondeuseImage = loadImage("tondeuseImage.png");
 tondeuse = new tondeuse(100,700,tondeuseImage );
 
+//humain
 voleurProcessing = loadImage("voleurProcessing.png");
 voleur = new humain(1100,500,voleurProcessing );
 
+//telephone
 telephoneProcessing = loadImage("telephoneProcessing.png");
 telephone = new telephone(200,0,telephoneProcessing);
+
+//machine de la maison
+laveLingeOuvertProcessing = loadImage("laveLingeOuvertProcessing.png");
+laveLinge = new machineMaison(760,555,laveLingeOuvertProcessing);
+laveVaisselleProcessing = loadImage("laveVaisselleProcessing.png");
+laveVaisselle = new machineMaison(640,550,laveVaisselleProcessing);
+secheLingeOuvertProcessing = loadImage("secheLingeOuvertProcessing.png");
+secheLinge = new machineMaison(510,550,secheLingeOuvertProcessing);
 
 anim_volet_ouvre = false;
 anim_volet_ferme = false;
@@ -296,7 +311,10 @@ if (anim_volet_ferme){
 //humain
 voleur.displayHumain();
 
-
+//machine de la maison
+laveLinge.displayMachine();
+laveVaisselle.displayMachine();
+secheLinge.displayMachine();
 
 }
 
