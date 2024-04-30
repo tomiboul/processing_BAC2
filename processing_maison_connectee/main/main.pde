@@ -1,8 +1,8 @@
 int decal, num_event;
-PImage wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing ;
+PImage wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,eau,electricite, paseau, paselectricite;
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
-boolean anim_volet_ouvre, anim_volet_ferme;
+boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power;
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes;
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
@@ -14,6 +14,8 @@ telephone telephone;
 machineMaison laveLinge; 
 machineMaison laveVaisselle; 
 machineMaison secheLinge; 
+alarme alarmeExterieurDésactivée;
+alarme alarmeExterieurActivée;
 
 
 void setup() {
@@ -43,6 +45,26 @@ laveVaisselleProcessing = loadImage("laveVaisselleProcessing.png");
 laveVaisselle = new machineMaison(640,550,laveVaisselleProcessing);
 secheLingeOuvertProcessing = loadImage("secheLingeOuvertProcessing.png");
 secheLinge = new machineMaison(510,550,secheLingeOuvertProcessing);
+
+//alarme - jardin
+alarmeJardinActivée = loadImage("alarmeJardinActivée.png");
+alarmeExterieurActivée = new alarme(425,325,alarmeJardinActivée);
+alarmeJardinDésactivée = loadImage("alarmeJardinDésactivée.png");
+alarmeExterieurDésactivée = new alarme(425,325,alarmeJardinDésactivée);
+alarmeExterieurAlumée = false;
+//alarme - interieur
+
+//ressource 
+water = true;
+power = true;
+eau = loadImage("eau.jpg");
+electricite = loadImage("electricite.jpg");
+paseau = loadImage("paseau.jpg");
+paselectricite = loadImage("paselectricite.jpg");
+
+
+
+
 
 anim_volet_ouvre = false;
 anim_volet_ferme = false;
@@ -315,6 +337,22 @@ voleur.displayHumain();
 laveLinge.displayMachine();
 laveVaisselle.displayMachine();
 secheLinge.displayMachine();
+
+//alarme - jardin
+if (alarmeExterieurAlumée == true){
+alarmeExterieurActivée.displayAlarme();}
+else{
+alarmeExterieurDésactivée.displayAlarme();}
+
+if (water == true){
+image(eau,820,375,50,50);}
+else{image(paseau,820,375,50,50);
+}
+if (power == true){
+image(electricite,770,375, 50,50);}
+else{image(paselectricite,770,375,50,50);
+}
+
 
 }
 
