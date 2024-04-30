@@ -83,13 +83,13 @@ machineArret = new MachineArret();
 
 anim_volet_ouvre = false;
 anim_volet_ferme = false;
-b_ouvre_fenetres = new Button(450,45,130,30,"Ouvrir les fenêtres");
+b_ouvre_fenetres = new Button(350,60,130,30,"Ouvrir les fenêtres");
 ouvre_fenetre = new Ouvre_fenetre();
-b_ferme_fenetres = new Button(580,45,130,30,"Fermer les fenêtres");
+b_ferme_fenetres = new Button(500,60,130,30,"Fermer les fenêtres");
 ferme_fenetre = new Ferme_fenetre();
-b_ferme_volets = new Button(450,75,130,30,"Fermer les volets");
+b_ferme_volets = new Button(500,100,130,30,"Fermer les volets");
 ferme_volets = new Ferme_volets();
-b_ouvre_volets = new Button(580,75,130,30,"Ouvrir les volets");
+b_ouvre_volets = new Button(350,100,130,30,"Ouvrir les volets");
 ouvre_volets = new Ouvre_volets();
 b_hours = new Button(1325,25,100,30,"Heure + 1");
 b_minutes = new Button(1325,55,100,30,"Minutes + 1");
@@ -491,6 +491,7 @@ void mousePressed(){
   if (bMenuMachine.select()){menu =2;} 
   if (bMenuAlarme.select()){menu = 3;}
   if (bMenuTonte.select()){menu = 4;}
-  if (bRetour.select()){menu = 0;}
   if (bVolets.select()){menu = 1;}
+  if (bRetour.select()){menu = 0;}
+  
 }
