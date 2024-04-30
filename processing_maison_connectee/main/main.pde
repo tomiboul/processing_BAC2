@@ -1,9 +1,14 @@
 int decal, num_event;
+
 PImage wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,eau,electricite, paseau, paselectricite;
+
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
-boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power;
-Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes;
+
+boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent;
+
+Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite;
+
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
 Ouvre_volets ouvre_volets;
@@ -16,7 +21,6 @@ machineMaison laveVaisselle;
 machineMaison secheLinge; 
 alarme alarmeExterieurDésactivée;
 alarme alarmeExterieurActivée;
-
 
 void setup() {
 size(1400,850);
@@ -83,6 +87,18 @@ volets.add(new Volets(580,350,95));
 volets.add(new Volets(900,350,95));
 fenetres.add(new Fenetres(580,350));
 fenetres.add(new Fenetres(900,350));
+
+//boutons humain
+voleurVient = new Button(1300,400,150,30,"Tentative d'intrusion");
+voleurPart = new Button(500,130,235,30,"Appelez le service de gardiennage");
+
+//bouton - ressources
+allumerElectricite = new Button(815,310,140,30,"Allumer l'eau");
+allumerEau = new Button(815,340,140,30,"Allumer l'électricité");
+coupureElectricite = new Button(815,450,140,30,"Coupure d'eau");
+coupureEau = new Button(815,480,140,30,"Coupure d'électricité");
+
+
 }
 
 void draw(){
@@ -274,6 +290,27 @@ b_minutes.update_mouse();
 b_minutes.updatecolor(true);
 b_minutes.display();
 
+
+// boutons - humains
+voleurVient.update_mouse();
+voleurVient.display();
+voleurPart.update_mouse();
+voleurPart.display();
+
+
+// boutons - ressources
+coupureElectricite.update_mouse();
+coupureElectricite.display();
+coupureEau.update_mouse();
+coupureEau.display();
+allumerElectricite.update_mouse();
+allumerElectricite.display();
+allumerEau.update_mouse();
+allumerEau.display();
+
+
+
+
 //display volets et fenetres
 for (int i =0; i< fenetres.size();i++){
   fenetres.get(i).display();
@@ -332,6 +369,8 @@ if (anim_volet_ferme){
 
 //humain
 voleur.displayHumain();
+voleurPresent = true;
+
 
 //machine de la maison
 laveLinge.displayMachine();
