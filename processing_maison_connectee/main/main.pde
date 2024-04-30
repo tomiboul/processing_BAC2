@@ -1,4 +1,4 @@
-int decal, num_event;
+int decal, num_event,m, menu;
 
 PImage wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,eau,electricite, paseau, paselectricite;
 
@@ -7,7 +7,8 @@ ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 
 boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent;
 
-Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite;
+Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets;
 
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
@@ -21,6 +22,8 @@ machineMaison laveVaisselle;
 machineMaison secheLinge; 
 alarme alarmeExterieurDésactivée;
 alarme alarmeExterieurActivée;
+MachineEnMarche machineEnMarche;
+MachineArret machineArret;
 
 void setup() {
 size(1400,850);
@@ -29,7 +32,7 @@ frameRate(30);
 decal = 0;
 num_event =-1;
 wood = loadImage("woodtexture.jpg");
-
+menu = 0;
 //jardin
 tondeuseImage = loadImage("tondeuseImage.png");
 tondeuse = new tondeuse(100,700,tondeuseImage );
@@ -58,6 +61,13 @@ alarmeExterieurDésactivée = new alarme(425,325,alarmeJardinDésactivée);
 alarmeExterieurAlumée = false;
 //alarme - interieur
 
+//boutons téléphone
+bMenuMachine = new Button(450,80,180,30,"Afficher le menu machine");
+bMenuAlarme = new Button(450,120,180,30,"Afficher le menu alarme"); 
+bMenuTonte = new Button(450,160,180,30,"Afficher le menu tondeuse");
+bVolets = new Button(450,40,180,30,"Afficher le menu volets");
+bRetour = new Button(310,195,100,30,"Retour");
+
 //ressource 
 water = true;
 power = true;
@@ -66,7 +76,8 @@ electricite = loadImage("electricite.jpg");
 paseau = loadImage("paseau.jpg");
 paselectricite = loadImage("paselectricite.jpg");
 
-
+machineEnMarche = new MachineEnMarche();
+machineArret = new MachineArret();
 
 
 
@@ -82,6 +93,12 @@ b_ouvre_volets = new Button(580,75,130,30,"Ouvrir les volets");
 ouvre_volets = new Ouvre_volets();
 b_hours = new Button(1325,25,100,30,"Heure + 1");
 b_minutes = new Button(1325,55,100,30,"Minutes + 1");
+bActLV = new Button(360,50,185,30,"Lancer le lave vaisselle");
+bActLL = new Button(360,90,185,30,"Lancer le lave linge");
+bActSL = new Button(360,130,185,30,"Lancer le sèche linge");
+bdeactSL = new Button(550,130,185,30,"Désactiver le sèche linge");
+bdeactLL = new Button(550,90,185,30,"Désactiver le lave linge");
+bdeactLV = new Button(550,50,185,30,"Désactiver le lave vaisselle");
 
 volets.add(new Volets(580,350,95));
 volets.add(new Volets(900,350,95));
@@ -267,10 +284,30 @@ popStyle();
 //telephone
 telephone.displayTelephone();
 //telephone - horloge
-text(hours, 265,30);
-text(":",280,30);
-text(minutes, 285,30);
+textSize(20);
+text(hours, 265,40);
+text(":",285,40);
+text(minutes, 295,40);
 
+//affichage des boutons
+bRetour.update_mouse();
+bRetour.updatecolor(true);
+if (menu == 0){
+bMenuMachine.update_mouse();
+bMenuAlarme.update_mouse();
+bMenuTonte.update_mouse();
+bVolets.update_mouse();
+bMenuMachine.updatecolor(true); 
+bMenuAlarme.updatecolor(true);
+bMenuTonte.updatecolor(true); 
+bVolets.updatecolor(true);
+bMenuMachine.display();
+bMenuAlarme.display();
+bMenuTonte.display();
+bVolets.display();
+}
+// menu = 1 -> menu fenêtres, volets
+if (menu == 1){
 b_ouvre_fenetres.update_mouse();
 b_ouvre_fenetres.updatecolor(ouvre_fenetre.ouvre_fenetre_gard());
 b_ouvre_fenetres.display();
@@ -283,19 +320,54 @@ b_ferme_volets.display();
 b_ouvre_volets.update_mouse();
 b_ouvre_volets.updatecolor(ouvre_volets.ouvre_volets_gard());
 b_ouvre_volets.display();
+bRetour.display();
+}
 b_hours.update_mouse();
 b_hours.updatecolor(true);
 b_hours.display();
 b_minutes.update_mouse();
 b_minutes.updatecolor(true);
 b_minutes.display();
+// menu = 2 -> machines (lave linge, sèche linge, lave vaisselle)
+if (menu == 2){
+bActLL.update_mouse();
+bActSL.update_mouse();
+bActLV.update_mouse();
+bdeactLL.update_mouse();
+bdeactLV.update_mouse();
+bdeactSL.update_mouse();
+bActLL.updatecolor(machineEnMarche.MachineEnMarche_gard(2));
+bActLV.updatecolor(machineEnMarche.MachineEnMarche_gard(1));
+bActSL.updatecolor(machineEnMarche.MachineEnMarche_gard(0));
+bdeactLL.updatecolor(machineArret.MachineArret_gard(2));
+bdeactLV.updatecolor(machineArret.MachineArret_gard(1));
+bdeactSL.updatecolor(machineArret.MachineArret_gard(0));
+bdeactLL.display();
+bdeactLV.display();
+bdeactSL.display();
+bdeactLL.display();
+bActLV.display();
+bActSL.display();
+bActLL.display();
+bRetour.display();
+}
+//menu = 3 -> alarmes
+if (menu == 3){
+  bRetour.display();
+  voleurPart.update_mouse();
+  voleurPart.display();
+}
 
+
+//menu = 4 -> tonte
+if (menu == 4){
+  bRetour.display();
+}
 
 // boutons - humains
 voleurVient.update_mouse();
 voleurVient.display();
-voleurPart.update_mouse();
-voleurPart.display();
+
 
 
 // boutons - ressources
@@ -344,6 +416,14 @@ switch(num_event){
     break;
   case 5:
     increaseMinutes();
+    num_event = -1;
+    break;
+  case 6:
+    machineEnMarche.run_MachineEnMarche(m);
+    num_event = -1;
+    break;
+  case 7:
+    machineArret.run_MachineArret(m);
     num_event = -1;
     break;
 }
@@ -402,4 +482,15 @@ void mousePressed(){
   if (b_ferme_volets.select()){num_event = 3;}
   if (b_hours.select()){num_event=4;}
   if (b_minutes.select()){num_event=5;}
+  if (bActLV.select()){num_event=6; m = 1;}
+  if (bActLL.select()){num_event=6; m = 2;}
+  if (bActSL.select()){num_event=6; m = 0;}
+  if (bdeactLV.select()){num_event=7; m = 1;}
+  if (bdeactLL.select()){num_event=7; m = 2;}
+  if (bdeactSL.select()){num_event=7; m = 0;}
+  if (bMenuMachine.select()){menu =2;} 
+  if (bMenuAlarme.select()){menu = 3;}
+  if (bMenuTonte.select()){menu = 4;}
+  if (bRetour.select()){menu = 0;}
+  if (bVolets.select()){menu = 1;}
 }
