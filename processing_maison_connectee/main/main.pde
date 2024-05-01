@@ -8,7 +8,7 @@ ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
-Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets;
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme;
 
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
@@ -72,6 +72,9 @@ bMenuTonte = new Button(450,160,180,30,"Afficher le menu tondeuse");
 bVolets = new Button(450,40,180,30,"Afficher le menu volets");
 bRetour = new Button(310,195,100,30,"Retour");
 
+desactiveToutAlarme = new Button (482,90,200,30,"Désactiver toutes les alarmes");
+activeToutAlarme = new Button (482,50,200,30,"Activer toutes les alarmes");
+
 //ressource 
 water = true;
 power = true;
@@ -124,7 +127,31 @@ coupureEau = new Button(815,480,140,30,"Coupure d'électricité");
 }
 
 void draw(){
+  
+if (hours <= 19 && hours >= 8){
 background(125, 166, 232);
+}
+
+if (hours < 8 && hours > 5){
+background(255, 57, 1);
+}
+
+if (hours <= 5 || hours > 21){
+background(15, 12, 46);
+}
+
+if (hours <= 20 && hours > 19){
+background(247, 97, 250);
+}
+fill(51, 166, 84);
+quad(0,300,660,240,660,850,0,850);
+rect(1050,250,500,300);
+fill(109, 112, 110);
+quad(800,150,1050,150,1170,280,680,250);
+fill(161, 173, 165);
+quad(850,100,1000,100,1050,150,800,150);
+fill(218, 232, 223);
+quad(880,50,970,50,1000,100,850,100);
 //brick wall
 fill(188, 74, 60);
 rect(500,300,700,400);
@@ -190,6 +217,11 @@ fill(255,255,255);
 circle(70,70,50);
 popStyle();
 
+//concrete on the right
+fill(212, 200, 199);
+quad(1220,720,1400,720,1400,780,1300,780);
+rect(1220,700,180,20);
+rect(1200,550,200,150);
 //default grass
 fill(67, 138, 59);
 quad(0,720,1220,720,1300,780,0,780);
@@ -360,7 +392,13 @@ bRetour.display();
 if (menu == 3){
   bRetour.display();
   voleurPart.update_mouse();
+  voleurPart.updatecolor(voleurPresent == true);
   voleurPart.display();
+  
+  desactiveToutAlarme.update_mouse();
+  desactiveToutAlarme.display();
+  activeToutAlarme.update_mouse();
+  activeToutAlarme.display();
 }
 
 
@@ -371,6 +409,7 @@ if (menu == 4){
 
 // boutons - humains
 voleurVient.update_mouse();
+voleurVient.updatecolor(voleurPresent == false);
 voleurVient.display();
 
 
@@ -451,6 +490,17 @@ switch(num_event){
     ressource.activatePower();
     num_event = -1;
     break;
+  case 12:
+    voleurPresent = true;
+    num_event =-1;
+    break;
+  case 13:
+    voleurPresent = false;
+    num_event = -1;
+    break;
+  case 14:
+  num_event = -1;
+    break;
 }
 
 
@@ -473,8 +523,10 @@ if (anim_volet_ferme){
 }
 
 //humain
+if (voleurPresent == true){
 voleur.displayHumain();
-voleurPresent = true;
+}
+
 
 
 //machine de la maison
@@ -522,4 +574,7 @@ void mousePressed(){
   if (coupureElectricite.select()){num_event = 9;}
   if (allumerEau.select()){num_event = 10;} 
   if (allumerElectricite.select()){num_event = 11;}
+  if (voleurVient.select()){num_event = 12;}
+  if (voleurPart.select()){num_event = 13;}
+  if (activeToutAlarme.select()){num_event =14;}
 }
