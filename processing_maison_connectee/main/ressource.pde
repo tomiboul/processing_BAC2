@@ -1,4 +1,4 @@
-class ressource{
+class Ressource{
   
   void stopWater(){
     if (water == true){

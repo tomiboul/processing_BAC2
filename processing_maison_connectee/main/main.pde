@@ -1,6 +1,6 @@
 int decal, num_event,m, menu;
 
-PImage wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,eau,electricite, paseau, paselectricite;
+PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,eau,electricite, paseau, paselectricite;
 
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
@@ -24,6 +24,7 @@ alarme alarmeExterieurDésactivée;
 alarme alarmeExterieurActivée;
 MachineEnMarche machineEnMarche;
 MachineArret machineArret;
+Ressource ressource;
 
 void setup() {
 size(1400,850);
@@ -47,11 +48,14 @@ telephone = new telephone(200,0,telephoneProcessing);
 
 //machine de la maison
 laveLingeOuvertProcessing = loadImage("laveLingeOuvertProcessing.png");
-laveLinge = new machineMaison(760,555,laveLingeOuvertProcessing);
+laveLingeFerme = loadImage("machineALaverOuvert.png");
+laveLinge = new machineMaison(760,555,laveLingeOuvertProcessing, laveLingeFerme);
 laveVaisselleProcessing = loadImage("laveVaisselleProcessing.png");
-laveVaisselle = new machineMaison(640,550,laveVaisselleProcessing);
+laveVaisselleFerme = loadImage("illustrlavevaissellefermé.jpg");
+laveVaisselle = new machineMaison(640,550,laveVaisselleProcessing, laveVaisselleFerme);
 secheLingeOuvertProcessing = loadImage("secheLingeOuvertProcessing.png");
-secheLinge = new machineMaison(510,550,secheLingeOuvertProcessing);
+secheLingeFerme = loadImage("sechelingeferme.jpg");
+secheLinge = new machineMaison(510,550,secheLingeOuvertProcessing, secheLingeFerme);
 
 //alarme - jardin
 alarmeJardinActivée = loadImage("alarmeJardinActivée.png");
@@ -75,6 +79,7 @@ eau = loadImage("eau.jpg");
 electricite = loadImage("electricite.jpg");
 paseau = loadImage("paseau.jpg");
 paselectricite = loadImage("paselectricite.jpg");
+ressource = new Ressource();
 
 machineEnMarche = new MachineEnMarche();
 machineArret = new MachineArret();
@@ -372,12 +377,16 @@ voleurVient.display();
 
 // boutons - ressources
 coupureElectricite.update_mouse();
+coupureElectricite.updatecolor(power == true);
 coupureElectricite.display();
 coupureEau.update_mouse();
+coupureEau.updatecolor(water == true);
 coupureEau.display();
 allumerElectricite.update_mouse();
+allumerElectricite.updatecolor(power==false);
 allumerElectricite.display();
 allumerEau.update_mouse();
+allumerEau.updatecolor(water==false);
 allumerEau.display();
 
 
@@ -424,6 +433,22 @@ switch(num_event){
     break;
   case 7:
     machineArret.run_MachineArret(m);
+    num_event = -1;
+    break;
+  case 8:
+    ressource.stopWater();
+    num_event = -1;
+    break;
+  case 9:
+    ressource.stopPower();
+    num_event = -1;
+    break;
+  case 10:
+    ressource.activateWater();
+    num_event = -1;
+    break;
+  case 11:
+    ressource.activatePower();
     num_event = -1;
     break;
 }
@@ -493,5 +518,8 @@ void mousePressed(){
   if (bMenuTonte.select()){menu = 4;}
   if (bVolets.select()){menu = 1;}
   if (bRetour.select()){menu = 0;}
-  
+  if (coupureEau.select()){num_event = 8;} 
+  if (coupureElectricite.select()){num_event = 9;}
+  if (allumerEau.select()){num_event = 10;} 
+  if (allumerElectricite.select()){num_event = 11;}
 }

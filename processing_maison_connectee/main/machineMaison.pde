@@ -1,13 +1,14 @@
 class machineMaison {
   int x;
   int y;
-  PImage images;
+  PImage activ_image, deactiv_image;
   boolean activate;
 
-  public machineMaison ( int nouveauX , int nouveauY , PImage nouvelleimage ) { 
+  public machineMaison ( int nouveauX , int nouveauY , PImage activImage, PImage deactivImage ) { 
   x = nouveauX;
   y = nouveauY;
-  images = nouvelleimage ;
+  activ_image =activImage ;
+  deactiv_image = deactivImage;
   activate = false;
   }
 
@@ -19,7 +20,11 @@ class machineMaison {
   }
 
   public void displayMachine(){
-    image(images,x,y, 150,150);
+    if(activate){
+    image(activ_image,x,y, 150,150);
+    } else{
+    image(deactiv_image,x,y, 150,150);
+    }
   }
 
 }
