@@ -123,10 +123,10 @@ voleurVient = new Button(1300,400,150,30,"Tentative d'intrusion");
 voleurPart = new Button(500,130,235,30,"Appelez le service de gardiennage");
 
 //bouton - ressources
-allumerElectricite = new Button(815,310,140,30,"Allumer l'eau");
-allumerEau = new Button(815,340,140,30,"Allumer l'électricité");
-coupureElectricite = new Button(815,450,140,30,"Coupure d'eau");
-coupureEau = new Button(815,480,140,30,"Coupure d'électricité");
+allumerElectricite = new Button(815,310,140,30,"Allumer l'électricité");
+allumerEau = new Button(815,340,140,30,"Allumer l'eau ");
+coupureElectricite = new Button(815,450,140,30,"Coupure d'électricité ");
+coupureEau = new Button(815,480,140,30,"Coupure d'eau ");
 
 
 }
