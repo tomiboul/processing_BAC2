@@ -25,7 +25,7 @@ class tondeuse {
     this.y=y+5; 
   }
 
-  public void displayTondeuse(){
+  public void display(){
     image(images,x,y, 100,60);
   }
 

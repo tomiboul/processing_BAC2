@@ -38,7 +38,7 @@ wood = loadImage("woodtexture.jpg");
 menu = 0;
 //jardin
 tondeuseImage = loadImage("tondeuseImage.jpg");
-tondeuse = new tondeuse(100,700,tondeuseImage );
+tondeuse = new tondeuse(1,600,tondeuseImage );
 
 //humain
 voleurProcessing = loadImage("voleurProcessing.png");
@@ -330,6 +330,8 @@ textSize(20);
 text(hours, 265,40);
 text(":",285,40);
 text(minutes, 295,40);
+// tondeuse
+tondeuse.display();
 
 //affichage des boutons
 bRetour.update_mouse();
