@@ -1,11 +1,11 @@
 int decal, num_event,m, menu;
 
-PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,eau,electricite, paseau, paselectricite;
+PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,alarmeActivée,alarmeDésactivée,eau,electricite, paseau, paselectricite;
 
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 
-boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent;
+boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
 Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme;
@@ -22,6 +22,8 @@ machineMaison laveVaisselle;
 machineMaison secheLinge; 
 alarme alarmeExterieurDésactivée;
 alarme alarmeExterieurActivée;
+alarme alarmeTotaleActivée;
+alarme alarmeTotaleDésactivée;
 MachineEnMarche machineEnMarche;
 MachineArret machineArret;
 Ressource ressource;
@@ -35,7 +37,7 @@ num_event =-1;
 wood = loadImage("woodtexture.jpg");
 menu = 0;
 //jardin
-tondeuseImage = loadImage("tondeuseImage.png");
+tondeuseImage = loadImage("tondeuseImage.jpg");
 tondeuse = new tondeuse(100,700,tondeuseImage );
 
 //humain
@@ -63,8 +65,11 @@ alarmeExterieurActivée = new alarme(425,325,alarmeJardinActivée);
 alarmeJardinDésactivée = loadImage("alarmeJardinDésactivée.png");
 alarmeExterieurDésactivée = new alarme(425,325,alarmeJardinDésactivée);
 alarmeExterieurAlumée = false;
-//alarme - interieur
-
+//alarme - maison
+alarmeActivée = loadImage("alarmeActivé.png");
+alarmeDésactivée = loadImage("alarmeDésactivé.png");
+alarmeTotaleActivée = new alarme(1050,325,alarmeActivée);
+alarmeTotaleDésactivée = new alarme(1050,325,alarmeDésactivée);
 //boutons téléphone
 bMenuMachine = new Button(450,80,180,30,"Afficher le menu machine");
 bMenuAlarme = new Button(450,120,180,30,"Afficher le menu alarme"); 
@@ -394,6 +399,7 @@ if (menu == 3){
   voleurPart.update_mouse();
   voleurPart.updatecolor(voleurPresent == true);
   voleurPart.display();
+  alarmeTotaleAlumée = false;
   
   desactiveToutAlarme.update_mouse();
   desactiveToutAlarme.display();
@@ -525,6 +531,7 @@ if (anim_volet_ferme){
 //humain
 if (voleurPresent == true){
 voleur.displayHumain();
+alarmeTotaleAlumée = true;
 }
 
 
@@ -548,7 +555,11 @@ if (power == true){
 image(electricite,770,375, 50,50);}
 else{image(paselectricite,770,375,50,50);
 }
-
+//alarme - maison
+if(alarmeTotaleAlumée == true){
+alarmeTotaleActivée.displayAlarme();}
+else{
+alarmeTotaleDésactivée.displayAlarme();}
 
 }
 
