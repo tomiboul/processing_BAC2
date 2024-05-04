@@ -1,16 +1,31 @@
 class alarme {
   int x;
   int y;
-  PImage images;
+  PImage desactivationImage, activationImage;
+  boolean activation;
 
-  public alarme ( int nouveauX , int nouveauY , PImage nouvelleimage ) { 
+  public alarme ( int nouveauX , int nouveauY , PImage nouvelleDesactivationImage, PImage nouvelleActivationImage) { 
   x = nouveauX;
   y = nouveauY;
-  images = nouvelleimage ;
+  desactivationImage = nouvelleDesactivationImage ;
+  activationImage = nouvelleActivationImage;
+  activation = false;
   }
-
+    
+  void ActivateAlarm(){
+  this.activation = true;
+  }
+  
+  void DesactivateAlarm(){
+  this.activation = false;
+  }
+   
   void displayAlarme(){
-    image(images,x,y, 80,65);
-  }
+    if (!activation){
+    image(desactivationImage,x,y, 80,65);
+  }else {
+    image(activationImage,x,y, 80,65);
+    }
 
+  }
 }

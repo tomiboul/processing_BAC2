@@ -4,6 +4,8 @@ class machineMaison {
   PImage activ_image, deactiv_image, standby_image;
   boolean activate;
   boolean standby;
+  int heure_debut_cycle;
+  int minute_debut_cycle;
 
   public machineMaison ( int nouveauX , int nouveauY , PImage activImage, PImage deactivImage, PImage standbyImage) { 
   x = nouveauX;
@@ -13,6 +15,8 @@ class machineMaison {
   standby_image = standbyImage;
   activate = false;
   standby = false;
+  heure_debut_cycle = 0;
+  minute_debut_cycle = 0;
   }
   
   public boolean getStandby(){
@@ -28,7 +32,15 @@ class machineMaison {
   public void activate(boolean act){
     this.activate = act;
   }
-
+  
+  public void checkPowerAndWater(){
+    if(!power){
+    activate = false;
+    }if (!water) {
+    activate = false;
+    }
+  }
+  
   public void displayMachine(){
     if(activate){
     println("activate" + activate);

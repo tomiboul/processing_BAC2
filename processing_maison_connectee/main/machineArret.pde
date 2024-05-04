@@ -4,17 +4,17 @@ class MachineArret{
 
     boolean MachineArret_gard(int machine){
         if (machine == 0){
-          if (secheLinge.getActivate()==true){
+          if (secheLinge.getActivate()==true && hours >= secheLinge.heure_debut_cycle + 4 && minutes >= secheLinge.minute_debut_cycle){
           return true;
           }
         }
         if (machine == 1){
-          if (laveVaisselle.getActivate()==true){
+          if (laveVaisselle.getActivate()==true && hours >= laveVaisselle.heure_debut_cycle + 3 && minutes >= laveVaisselle.minute_debut_cycle){
           return true;
           }
         }
         if (machine == 2){
-          if (laveLinge.getActivate()==true){
+          if (laveLinge.getActivate()==true && hours >= laveLinge.heure_debut_cycle + 2 && minutes >= laveLinge.minute_debut_cycle){
           return true;
           }
         }

@@ -4,7 +4,7 @@ class MachineEnMarche{
     }
 
     boolean MachineEnMarche_gard(int machine){
-      if (hours >= 22 || hours <= 6){
+      if ((hours >= 22 || hours <= 6 ) && water == true && power == true){
         if (machine == 0){
           if (secheLinge.getActivate()==false && secheLinge.getStandby()==true){
           return true;
@@ -29,14 +29,20 @@ class MachineEnMarche{
         if (machine == 0){
           secheLinge.activate(true);
           secheLinge.standby(false);
+          secheLinge.heure_debut_cycle = hours;
+          secheLinge.minute_debut_cycle = minutes;
         }
         if (machine ==1){
           laveVaisselle.activate(true);
           laveVaisselle.standby(false);
+          laveVaisselle.heure_debut_cycle = hours;
+          laveVaisselle.minute_debut_cycle = minutes;
         }
         if (machine == 2){
           laveLinge.activate(true);
           laveLinge.standby(false);
+          laveLinge.heure_debut_cycle = hours;
+          laveLinge.minute_debut_cycle = minutes;
         }
 
       }
