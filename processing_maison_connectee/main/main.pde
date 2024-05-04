@@ -1,6 +1,6 @@
 int decal, num_event,m, menu;
 
-PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,alarmeActivée,alarmeDésactivée,eau,electricite, paseau, paselectricite;
+PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,alarmeActivée,alarmeDésactivée,eau,electricite, paseau, paselectricite, laveVaisselleEnStandby, laveLingeEnStandby, secheLingeEnStandby;
 
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
@@ -26,6 +26,8 @@ alarme alarmeTotaleActivée;
 alarme alarmeTotaleDésactivée;
 MachineEnMarche machineEnMarche;
 MachineArret machineArret;
+MachineEnStandby machineEnStandby;
+MachineArretStandby machineArretStandby;
 Ressource ressource;
 
 void setup() {
@@ -51,13 +53,16 @@ telephone = new telephone(200,0,telephoneProcessing);
 //machine de la maison
 laveLingeOuvertProcessing = loadImage("laveLingeOuvertProcessing.png");
 laveLingeFerme = loadImage("machineALaverOuvert.png");
-laveLinge = new machineMaison(760,555,laveLingeOuvertProcessing, laveLingeFerme);
+laveLingeEnStandby = loadImage("machineALaverOuvertEnStandby.png");
+laveLinge = new machineMaison(760,555, laveLingeFerme,laveLingeOuvertProcessing, laveLingeEnStandby);
 laveVaisselleProcessing = loadImage("laveVaisselleProcessing.png");
 laveVaisselleFerme = loadImage("illustrlavevaissellefermé.jpg");
-laveVaisselle = new machineMaison(640,550,laveVaisselleProcessing, laveVaisselleFerme);
+laveVaisselleEnStandby = loadImage("illustrlavevaisselleferméenstandby.jpg");
+laveVaisselle = new machineMaison(640,550, laveVaisselleFerme,laveVaisselleProcessing, laveVaisselleEnStandby);
 secheLingeOuvertProcessing = loadImage("secheLingeOuvertProcessing.png");
 secheLingeFerme = loadImage("sechelingeferme.jpg");
-secheLinge = new machineMaison(510,550,secheLingeOuvertProcessing, secheLingeFerme);
+secheLingeEnStandby = loadImage("sechelingefermeenstandby.jpg");
+secheLinge = new machineMaison(510,550, secheLingeFerme, secheLingeOuvertProcessing, secheLingeEnStandby);
 
 //alarme - jardin
 alarmeJardinActivée = loadImage("alarmeJardinActivée.png");
@@ -91,6 +96,8 @@ ressource = new Ressource();
 
 machineEnMarche = new MachineEnMarche();
 machineArret = new MachineArret();
+machineEnStandby = new MachineEnStandby();
+machineArretStandby = new MachineArretStandby();
 
 
 
@@ -332,6 +339,13 @@ text(":",285,40);
 text(minutes, 295,40);
 // tondeuse
 tondeuse.display();
+// machines
+machineEnStandby.run_MachineEnStandby(0);
+machineEnStandby.run_MachineEnStandby(1);
+machineEnStandby.run_MachineEnStandby(2);
+machineArretStandby.run_MachineArretStandby(0);
+machineArretStandby.run_MachineArretStandby(1);
+machineArretStandby.run_MachineArretStandby(2);
 
 //affichage des boutons
 bRetour.update_mouse();
