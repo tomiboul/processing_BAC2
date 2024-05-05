@@ -8,7 +8,7 @@ ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
-Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme;
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale;
 
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
@@ -84,8 +84,10 @@ bMenuTonte = new Button(450,160,180,30,"Afficher le menu tondeuse");
 bVolets = new Button(450,40,180,30,"Afficher le menu volets");
 bRetour = new Button(310,195,100,30,"Retour");
 
-desactiveToutAlarme = new Button (482,90,200,30,"Désactiver toutes les alarmes");
-activeToutAlarme = new Button (482,50,200,30,"Activer toutes les alarmes");
+desactiveToutAlarme  =   new Button (360,100,200,30,"Désactiver toutes les alarmes");
+activeToutAlarme       = new Button (360,60,200,30,"Activer toutes les alarmes");
+brancherAlarmeTotale   = new Button (560,60,180,30,"Brancher l'alarme totale");
+debrancherAlarmeTotale = new Button (560,100,180,30,"Débrancher l'alarme totale");
 
 //ressource 
 water = true;
@@ -123,7 +125,7 @@ fenetres.add(new Fenetres(900,350));
 
 //boutons humain
 voleurVient = new Button(1300,400,150,30,"Tentative d'intrusion");
-voleurPart = new Button(500,130,235,30,"Appelez le service de gardiennage");
+voleurPart = new Button(360,140,235,30,"Appelez le service de gardiennage");
 
 //bouton - ressources
 allumerElectricite = new Button(815,310,140,30,"Allumer l'électricité");
@@ -447,11 +449,19 @@ if (menu == 3){
   voleurPart.display();
   alarmeTotaleAlumée = false;
   
+  brancherAlarmeTotale.update_mouse();
+  brancherAlarmeTotale.updatecolor(!alarmeTotale.branché);
+  brancherAlarmeTotale.display();
+  
+  debrancherAlarmeTotale.update_mouse();
+  debrancherAlarmeTotale.updatecolor(alarmeTotale.branché);
+  debrancherAlarmeTotale.display();
+  
   desactiveToutAlarme.update_mouse();
-  desactiveToutAlarme.updatecolor(alarmeTotale.activation);
+  desactiveToutAlarme.updatecolor(alarmeTotale.activation || alarmeExterieur.activation);
   desactiveToutAlarme.display();
   
-  activeToutAlarme.updatecolor(!alarmeTotale.activation);
+  activeToutAlarme.updatecolor(!alarmeTotale.activation && alarmeTotale.branché);
   activeToutAlarme.update_mouse();
   activeToutAlarme.display();
 }
@@ -565,6 +575,14 @@ switch(num_event){
   alarmeExterieur.DesactivateAlarm();
   num_event = -1;
     break;
+  case 16:
+  alarmeTotale.DébrancherRebrancherAlarmeInterieur(true);
+  num_event = -1;
+    break;
+  case 17:
+  alarmeTotale.DébrancherRebrancherAlarmeInterieur(false);
+  num_event = -1;
+    break;
 }
 
 
@@ -613,4 +631,6 @@ void mousePressed(){
   if (voleurPart.select()){num_event = 13;}
   if (activeToutAlarme.select()){num_event =14;}
   if (desactiveToutAlarme.select()){num_event =15;}
+  if (brancherAlarmeTotale.select()){num_event =16;}
+  if (debrancherAlarmeTotale.select()){num_event =17;}
 }
