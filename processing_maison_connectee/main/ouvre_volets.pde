@@ -3,12 +3,15 @@ class Ouvre_volets{
   }
 
   boolean ouvre_volets_gard(){
-    for (int i=0; i< volets.size();i++){
-      if (volets.get(i).getOuvert() == true){
-        return false;
+    if (!alarmeTotale.activation){
+      for (int i=0; i< volets.size();i++){
+        if (volets.get(i).getOuvert() == true){
+          return false;
+        }
       }
+      return true;
     }
-    return true;
+    return false;
   }
 
   boolean run_ouvre_volets(){

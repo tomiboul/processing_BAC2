@@ -3,12 +3,15 @@ class Ouvre_fenetre{
   }
 
   boolean ouvre_fenetre_gard(){
-    for (int i =0; i< volets.size();i++){
-      if (volets.get(i).getOuvert() == false || fenetres.get(i).getOuvert()== true){
-        return false;
+    if (!alarmeTotale.activation){
+      for (int i =0; i< volets.size();i++){
+        if (volets.get(i).getOuvert() == false || fenetres.get(i).getOuvert()== true){
+          return false;
+        }
       }
+      return true;
     }
-    return true;
+    return false;
   }
 
   void run_ouvre_fenetre(){

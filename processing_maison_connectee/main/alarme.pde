@@ -19,6 +19,8 @@ class alarme {
   void DesactivateAlarm(){
   this.activation = false;
   }
+  
+  
    
   void displayAlarme(){
     if (!activation){

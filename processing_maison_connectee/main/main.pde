@@ -335,13 +335,47 @@ text(":",285,40);
 text(minutes, 295,40);
 // tondeuse
 tondeuse.display();
-// machines
+
+//machines de la maison
+laveLinge.checkPowerAndWater(1);
+laveVaisselle.checkPowerAndWater(2);
+secheLinge.checkPowerAndWater(0);
 machineEnStandby.run_MachineEnStandby(0);
 machineEnStandby.run_MachineEnStandby(1);
 machineEnStandby.run_MachineEnStandby(2);
 machineArretStandby.run_MachineArretStandby(0);
 machineArretStandby.run_MachineArretStandby(1);
 machineArretStandby.run_MachineArretStandby(2);
+
+laveLinge.displayMachine();
+laveVaisselle.displayMachine();
+secheLinge.displayMachine();
+
+
+
+//humain
+if (voleurPresent == true){
+voleur.displayHumain();
+alarmeTotale.activation = true;
+}
+
+//alarme - jardin
+if (alarmeTotale.activation){
+alarmeExterieur.activation = true;
+}
+alarmeExterieur.displayAlarme();
+//alarme - maison
+alarmeTotale.displayAlarme();
+
+if (water == true){
+image(eau,820,375,50,50);}
+else{image(paseau,820,375,50,50);
+}
+if (power == true){
+image(electricite,770,375, 50,50);}
+else{image(paselectricite,770,375,50,50);
+}
+
 
 //affichage des boutons
 bRetour.update_mouse();
@@ -414,7 +448,10 @@ if (menu == 3){
   alarmeTotaleAlumée = false;
   
   desactiveToutAlarme.update_mouse();
+  desactiveToutAlarme.updatecolor(alarmeTotale.activation);
   desactiveToutAlarme.display();
+  
+  activeToutAlarme.updatecolor(!alarmeTotale.activation);
   activeToutAlarme.update_mouse();
   activeToutAlarme.display();
 }
@@ -514,14 +551,18 @@ switch(num_event){
     break;
   case 13:
     voleurPresent = false;
+    alarmeTotale.DesactivateAlarm();
+    alarmeExterieur.DesactivateAlarm();
     num_event = -1;
     break;
   case 14:
   alarmeTotale.ActivateAlarm();
+  alarmeExterieur.ActivateAlarm();
   num_event = -1;
     break;
   case 15:
   alarmeTotale.DesactivateAlarm();
+  alarmeExterieur.DesactivateAlarm();
   num_event = -1;
     break;
 }
@@ -543,37 +584,6 @@ if (anim_volet_ferme){
       volets.get(i).changeHeight(5);
     }else{anim_volet_ferme=false;}
   }
-}
-
-//humain
-if (voleurPresent == true){
-voleur.displayHumain();
-alarmeTotaleAlumée = true;
-}
-
-
-
-//machine de la maison
-laveLinge.checkPowerAndWater();
-laveVaisselle.checkPowerAndWater();
-secheLinge.checkPowerAndWater();
-
-laveLinge.displayMachine();
-laveVaisselle.displayMachine();
-secheLinge.displayMachine();
-
-//alarme - jardin
-alarmeExterieur.displayAlarme();
-//alarme - maison
-alarmeTotale.displayAlarme();
-
-if (water == true){
-image(eau,820,375,50,50);}
-else{image(paseau,820,375,50,50);
-}
-if (power == true){
-image(electricite,770,375, 50,50);}
-else{image(paselectricite,770,375,50,50);
 }
 
 }

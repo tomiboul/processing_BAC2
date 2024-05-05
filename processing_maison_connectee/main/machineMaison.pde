@@ -33,17 +33,18 @@ class machineMaison {
     this.activate = act;
   }
   
-  public void checkPowerAndWater(){
+  public void checkPowerAndWater(int m){
     if(!power){
     activate = false;
     }if (!water) {
-    activate = false;
+      if (m !=0 ){
+        activate = false;
+      }
     }
   }
   
   public void displayMachine(){
     if(activate){
-    println("activate" + activate);
     image(activ_image,x,y, 150,150);
     }else if (standby) {
     image(standby_image,x,y, 150,150);
