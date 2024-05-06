@@ -5,12 +5,10 @@ PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,v
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 
-boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée;
 boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
-Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale;
-Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_active_tondeuse;
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_active_tondeuse, brancherSeulementAlarmeExterieur;
 
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
@@ -86,10 +84,11 @@ bMenuTonte = new Button(450,160,180,30,"Afficher le menu tondeuse");
 bVolets = new Button(450,40,180,30,"Afficher le menu volets");
 bRetour = new Button(310,195,100,30,"Retour");
 
-desactiveToutAlarme  =   new Button (360,100,200,30,"Désactiver toutes les alarmes");
-activeToutAlarme       = new Button (360,60,200,30,"Activer toutes les alarmes");
-brancherAlarmeTotale   = new Button (560,60,180,30,"Brancher l'alarme totale");
-debrancherAlarmeTotale = new Button (560,100,180,30,"Débrancher l'alarme totale");
+desactiveToutAlarme              = new Button (550,100,200,30,"Désactiver toutes les alarmes");
+activeToutAlarme                 = new Button (550,60 ,200,30,"Activer toutes les alarmes");
+brancherAlarmeTotale             = new Button (350,60 ,180,30,"Brancher l'alarme totale");
+brancherSeulementAlarmeExterieur = new Button (390,140,260,30,"Brancher seulement l'alarme extérieur");
+debrancherAlarmeTotale           = new Button (350,100,180,30,"Débrancher l'alarme totale");
 
 //ressource 
 water = true;
@@ -128,7 +127,7 @@ fenetres.add(new Fenetres(900,350));
 
 //boutons humain
 voleurVient = new Button(1300,400,150,30,"Tentative d'intrusion");
-voleurPart = new Button(360,140,235,30,"Appelez le service de gardiennage");
+voleurPart = new Button(500,190,235,30,"Appelez le service de gardiennage");
 
 //bouton - ressources
 allumerElectricite = new Button(815,310,140,30,"Allumer l'électricité");
@@ -458,8 +457,12 @@ if (menu == 3){
   brancherAlarmeTotale.updatecolor(!alarmeTotale.branché);
   brancherAlarmeTotale.display();
   
+  brancherSeulementAlarmeExterieur.update_mouse();
+  brancherSeulementAlarmeExterieur.updatecolor(!alarmeExterieur.branché);
+  brancherSeulementAlarmeExterieur.display();
+  
   debrancherAlarmeTotale.update_mouse();
-  debrancherAlarmeTotale.updatecolor(alarmeTotale.branché);
+  debrancherAlarmeTotale.updatecolor(alarmeTotale.branché || alarmeExterieur.branché);
   debrancherAlarmeTotale.display();
   
   desactiveToutAlarme.update_mouse();
@@ -588,10 +591,14 @@ switch(num_event){
     break;
   case 17:
   alarmeTotale.DébrancherRebrancherAlarmeInterieur(false);
-  tondeuse.moveRight();
+  alarmeExterieur.DébrancherRebrancherAlarmeInterieur(false);
   num_event = -1;
     break;
   case 18:
+  alarmeExterieur.DébrancherRebrancherAlarmeInterieur(true);
+  num_event = -1;
+    break;
+  case 19:
   tondeuse.moveRight();
   num_event = -1;
     break;
@@ -645,5 +652,6 @@ void mousePressed(){
   if (desactiveToutAlarme.select()){num_event =15;}
   if (brancherAlarmeTotale.select()){num_event =16;}
   if (debrancherAlarmeTotale.select()){num_event =17;}
-  if (b_active_tondeuse.select()){num_event =18;}
+  if (brancherSeulementAlarmeExterieur.select()){num_event =18;}
+  if (b_active_tondeuse.select()){num_event =19;}
 }
