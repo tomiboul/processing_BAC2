@@ -1,8 +1,4 @@
-int hours = 0;
-int minutes = 0;
-int days = 0;
-int month = 0;
-int dayOfTheWeek; 
+
 
 void increaseMonth (){
   month = (month + 1);

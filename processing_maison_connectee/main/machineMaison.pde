@@ -1,6 +1,5 @@
 class machineMaison {
-  int x;
-  int y;
+  int x, y, xInit, yInit;
   PImage activ_image, deactiv_image, standby_image;
   boolean activate;
   boolean standby;
@@ -10,6 +9,8 @@ class machineMaison {
   public machineMaison ( int nouveauX , int nouveauY , PImage activImage, PImage deactivImage, PImage standbyImage) { 
   x = nouveauX;
   y = nouveauY;
+  xInit = nouveauX;
+  yInit = nouveauY;
   activ_image =activImage ;
   deactiv_image = deactivImage;
   standby_image = standbyImage;
@@ -42,6 +43,44 @@ class machineMaison {
       }
     }
   }
+  
+  public void vibrate (){
+    if (activate){
+      float test = random(0,5);
+      if (test >= 0 && test < 1){
+        x = xInit;
+      }
+      if (test >= 1 && test < 2){
+        x = xInit + 2;
+      }
+      if (test >= 2 && test < 3){
+        x = xInit + 5;
+      }
+      if (test >= 3 && test < 4){
+        x = xInit - 2;
+      }
+      if (test >= 4 && test < 5){
+        x = xInit - 5;
+      }
+      float test2 = random(0,5);
+      if (test2 >= 0 && test2 < 1){
+        y = yInit;
+      }
+      if (test2 >= 1 && test2 < 2){
+        y = yInit + 2;
+      }
+      if (test2 >= 2 && test2 < 3){
+        y = yInit + 5;
+      }
+      if (test2 >= 3 && test2 < 4){
+        y = yInit - 2;
+      }
+      if (test2 >= 4 && test2 < 5){
+        y = yInit - 5;
+      }
+    }
+  }
+  
   
   public void displayMachine(){
     if(activate){
