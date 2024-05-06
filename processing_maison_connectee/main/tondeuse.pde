@@ -10,7 +10,7 @@ class tondeuse {
   }
 
   void moveRight(){
-    this.x=x+5; 
+    this.x+=200; 
   }
 
   void moveLeft(){

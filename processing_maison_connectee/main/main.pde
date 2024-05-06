@@ -6,9 +6,11 @@ ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 
 boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée;
+boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
 Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale;
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_active_tondeuse;
 
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
@@ -117,6 +119,7 @@ bActSL = new Button(360,130,185,30,"Lancer le sèche linge");
 bdeactSL = new Button(550,130,185,30,"Désactiver le sèche linge");
 bdeactLL = new Button(550,90,185,30,"Désactiver le lave linge");
 bdeactLV = new Button(550,50,185,30,"Désactiver le lave vaisselle");
+b_active_tondeuse = new Button (400,50,185,30,"Activer la tondeuse" );
 
 volets.add(new Volets(580,350,95));
 volets.add(new Volets(900,350,95));
@@ -338,6 +341,8 @@ text(minutes, 295,40);
 // tondeuse
 tondeuse.display();
 
+if (hours>=8 & hours <= 21){
+tondre = true;}
 //machines de la maison
 laveLinge.checkPowerAndWater(1);
 laveVaisselle.checkPowerAndWater(2);
@@ -469,6 +474,8 @@ if (menu == 3){
 
 //menu = 4 -> tonte
 if (menu == 4){
+  b_active_tondeuse.display();
+  b_active_tondeuse.updatecolor(tondre);
   bRetour.display();
 }
 
@@ -576,11 +583,15 @@ switch(num_event){
   num_event = -1;
     break;
   case 16:
+<<<<<<< HEAD
   alarmeTotale.DébrancherRebrancherAlarmeInterieur(true);
   num_event = -1;
     break;
   case 17:
   alarmeTotale.DébrancherRebrancherAlarmeInterieur(false);
+=======
+  tondeuse.moveRight();
+>>>>>>> 0e0d20c27be81fb05e8ec583c856a5c1a7a2a2ff
   num_event = -1;
     break;
 }
@@ -631,6 +642,10 @@ void mousePressed(){
   if (voleurPart.select()){num_event = 13;}
   if (activeToutAlarme.select()){num_event =14;}
   if (desactiveToutAlarme.select()){num_event =15;}
+<<<<<<< HEAD
   if (brancherAlarmeTotale.select()){num_event =16;}
   if (debrancherAlarmeTotale.select()){num_event =17;}
+=======
+  if (b_active_tondeuse.select()){num_event =16;}
+>>>>>>> 0e0d20c27be81fb05e8ec583c856a5c1a7a2a2ff
 }
