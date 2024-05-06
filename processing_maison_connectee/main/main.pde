@@ -340,9 +340,9 @@ text(":",285,40);
 text(minutes, 295,40);
 // tondeuse
 tondeuse.display();
-
 if (hours>=8 & hours <= 21){
 tondre = true;}
+
 //machines de la maison
 laveLinge.checkPowerAndWater(1);
 laveVaisselle.checkPowerAndWater(2);
@@ -583,15 +583,16 @@ switch(num_event){
   num_event = -1;
     break;
   case 16:
-<<<<<<< HEAD
   alarmeTotale.DébrancherRebrancherAlarmeInterieur(true);
   num_event = -1;
     break;
   case 17:
   alarmeTotale.DébrancherRebrancherAlarmeInterieur(false);
-=======
   tondeuse.moveRight();
->>>>>>> 0e0d20c27be81fb05e8ec583c856a5c1a7a2a2ff
+  num_event = -1;
+    break;
+  case 18:
+  tondeuse.moveRight();
   num_event = -1;
     break;
 }
@@ -642,10 +643,7 @@ void mousePressed(){
   if (voleurPart.select()){num_event = 13;}
   if (activeToutAlarme.select()){num_event =14;}
   if (desactiveToutAlarme.select()){num_event =15;}
-<<<<<<< HEAD
   if (brancherAlarmeTotale.select()){num_event =16;}
   if (debrancherAlarmeTotale.select()){num_event =17;}
-=======
-  if (b_active_tondeuse.select()){num_event =16;}
->>>>>>> 0e0d20c27be81fb05e8ec583c856a5c1a7a2a2ff
+  if (b_active_tondeuse.select()){num_event =18;}
 }
