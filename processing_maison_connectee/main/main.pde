@@ -8,7 +8,7 @@ ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
-Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_active_tondeuse, brancherSeulementAlarmeExterieur;
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_active_tondeuse, brancherSeulementAlarmeExterieur, b_days, b_month;
 
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
@@ -78,10 +78,10 @@ alarmeDésactivée = loadImage("alarmeDésactivé.png");
 alarmeTotale = new alarme(1050,325,alarmeDésactivée,alarmeActivée);
 
 //boutons téléphone
-bMenuMachine = new Button(450,80,180,30,"Afficher le menu machine");
-bMenuAlarme = new Button(450,120,180,30,"Afficher le menu alarme"); 
-bMenuTonte = new Button(450,160,180,30,"Afficher le menu tondeuse");
-bVolets = new Button(450,40,180,30,"Afficher le menu volets");
+bMenuMachine = new Button(450,100,180,30,"Afficher le menu machine");
+bMenuAlarme  = new Button(450,140,180,30,"Afficher le menu alarme"); 
+bMenuTonte   = new Button(450,180,180,30,"Afficher le menu tondeuse");
+bVolets      = new Button(450,60,180,30,"Afficher le menu volets");
 bRetour = new Button(310,195,100,30,"Retour");
 
 desactiveToutAlarme              = new Button (550,100,200,30,"Désactiver toutes les alarmes");
@@ -110,15 +110,19 @@ b_ferme_volets = new Button(500,100,130,30,"Fermer les volets");
 ferme_volets = new Ferme_volets();
 b_ouvre_volets = new Button(350,100,130,30,"Ouvrir les volets");
 ouvre_volets = new Ouvre_volets();
-b_hours = new Button(1325,25,100,30,"Heure + 1");
-b_minutes = new Button(1325,55,100,30,"Minutes + 1");
-bActLV = new Button(360,50,185,30,"Lancer le lave vaisselle");
-bActLL = new Button(360,90,185,30,"Lancer le lave linge");
-bActSL = new Button(360,130,185,30,"Lancer le sèche linge");
-bdeactSL = new Button(550,130,185,30,"Désactiver le sèche linge");
-bdeactLL = new Button(550,90,185,30,"Désactiver le lave linge");
-bdeactLV = new Button(550,50,185,30,"Désactiver le lave vaisselle");
-b_active_tondeuse = new Button (400,50,185,30,"Activer la tondeuse" );
+
+b_hours   = new Button(1325,85,100,30,"Heure + 1");
+b_minutes = new Button(1325,115,100,30,"Minutes + 1");
+b_days    = new Button(1325,55,100,30,"Days + 1");
+b_month   = new Button(1325,25,100,30,"Month + 1");
+
+bActLV   = new Button(360,60,185,30,"Lancer le lave vaisselle");
+bActLL   = new Button(360,100,185,30,"Lancer le lave linge");
+bActSL   = new Button(360,140,185,30,"Lancer le sèche linge");
+bdeactSL = new Button(550,140,185,30,"Désactiver le sèche linge");
+bdeactLL = new Button(550,100,185,30,"Désactiver le lave linge");
+bdeactLV = new Button(550,60,185,30,"Désactiver le lave vaisselle");
+b_active_tondeuse = new Button (400,60,185,30,"Activer la tondeuse" );
 
 volets.add(new Volets(580,350,95));
 volets.add(new Volets(900,350,95));
@@ -337,6 +341,25 @@ textSize(20);
 text(hours, 265,40);
 text(":",285,40);
 text(minutes, 295,40);
+text(days, 600,40);
+text("/",620,40);
+text(month, 630,40);
+switch(dayOfTheWeek) {
+  case 0: text("lundi"   ,520,40);
+  break;
+  case 1: text("mardi"   ,520,40);
+  break;
+  case 2: text("mercredi",520,40);
+  break;
+  case 3: text("jeudi"   ,520,40);
+  break;
+  case 4: text("vendredi",520,40);
+  break;
+  case 5: text("samedi"  ,520,40);
+  break;
+  case 6: text("dimanche",520,40);
+  break;
+}
 // tondeuse
 tondeuse.display();
 if (hours>=8 & hours <= 21){
@@ -422,6 +445,12 @@ b_hours.display();
 b_minutes.update_mouse();
 b_minutes.updatecolor(true);
 b_minutes.display();
+b_days.update_mouse();
+b_days.updatecolor(true);
+b_days.display();
+b_month.update_mouse();
+b_month.updatecolor(true);
+b_month.display();
 // menu = 2 -> machines (lave linge, sèche linge, lave vaisselle)
 if (menu == 2){
 bActLL.update_mouse();
@@ -512,7 +541,7 @@ for (int i =0; i< fenetres.size();i++){
   volets.get(i).display();
 }
 
-
+checkTime();
 
 switch(num_event){
   case -1:
@@ -602,6 +631,14 @@ switch(num_event){
   tondeuse.moveRight();
   num_event = -1;
     break;
+   case 20:
+    increaseDays();
+    num_event = -1;
+    break;
+   case 21:
+    increaseMonth();
+    num_event = -1;
+    break;
 }
 
 
@@ -654,4 +691,6 @@ void mousePressed(){
   if (debrancherAlarmeTotale.select()){num_event =17;}
   if (brancherSeulementAlarmeExterieur.select()){num_event =18;}
   if (b_active_tondeuse.select()){num_event =19;}
+  if (b_days.select()){num_event =20;}
+  if (b_month.select()){num_event =21;}
 }
