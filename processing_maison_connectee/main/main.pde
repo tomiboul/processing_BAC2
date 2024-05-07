@@ -8,12 +8,9 @@ ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre, proprietairePresent, policierPresent, anim_voleur, anim_policier, anim_arrest,approche;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
-Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_activetondeuse, brancherSeulementAlarmeExterieur, b_days, b_month, bProprio, bProprioQuitte;
-int hours = 0;
-int minutes = 0;
-int days = 0;
-int month = 0;
-int dayOfTheWeek; 
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_activetondeuse, brancherSeulementAlarmeExterieur, b_days, b_month, bProprio, bProprioQuitte, bRemplirLV, bRemplirSL,bRemplirLL;
+int hours = 0, minutes = 0, days = 0, month = 0, dayOfTheWeek; 
+
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
 Ouvre_volets ouvre_volets;
@@ -35,6 +32,8 @@ MachineArretStandby machineArretStandby;
 Ressource ressource;
 Fenetres ouveture_automatique;
 Proprietaire proprietaireApproche;
+
+
 void setup() {
 size(1400,850);
 background(125, 166, 232);
@@ -43,6 +42,7 @@ decal = 0;
 num_event =-1;
 wood = loadImage("woodtexture.jpg");
 menu = 0;
+
 //jardin
 tondeuseImage = loadImage("tondeuseImage.jpg");
 tondeuse = new tondeuse(0,600,tondeuseImage );
@@ -50,6 +50,7 @@ anim_voleur = false;
 anim_policier=false;
 proprietaireApproche = new Proprietaire();
 anim_proprio = 0;
+
 //humain
 voleurProcessing = loadImage("voleurProcessing.png");
 voleur = new humain(1200,500,voleurProcessing );
@@ -58,10 +59,12 @@ proprietaire = new humain(500,500,jeanBernard);
 policier_image = loadImage("policier.png");
 policier = new humain(-100,500,policier_image);
 anim_arrest = false;
+
 //telephone
 telephoneProcessing = loadImage("telephoneProcessing.png");
 telephone = new telephone(200,0,telephoneProcessing);
 lune_image = loadImage("lune.png");
+
 //machine de la maison
 laveLingeOuvertProcessing = loadImage("laveLingeOuvertProcessing.png");
 laveLingeFerme = loadImage("machineALaverOuvert.png");
@@ -80,8 +83,7 @@ machineEnMarche = new MachineEnMarche();
 machineArret = new MachineArret();
 machineEnStandby = new MachineEnStandby();
 machineArretStandby = new MachineArretStandby();
-bProprio = new Button(700,800,180,40,"Proprietaire approche");
-bProprioQuitte = new Button(890,800,180,40,"Proprietaire s'éloigne");
+
 //alarme - jardin
 alarmeJardinActivée = loadImage("alarmeJardinActivée.png");
 alarmeJardinDésactivée = loadImage("alarmeJardinDésactivée.png");
@@ -104,6 +106,9 @@ activeToutAlarme                 = new Button (550,60 ,200,30,"Activer l'alarme 
 brancherAlarmeTotale             = new Button (350,60 ,180,30,"Brancher l'alarme totale");
 brancherSeulementAlarmeExterieur = new Button (390,140,260,30,"Brancher seulement l'alarme extérieur");
 debrancherAlarmeTotale           = new Button (350,100,180,30,"Débrancher les alarmes");
+
+bProprio = new Button(700,800,180,40,"Proprietaire approche");
+bProprioQuitte = new Button(890,800,180,40,"Proprietaire s'éloigne");
 
 //ressource 
 water = true;
@@ -137,6 +142,10 @@ bActSL   = new Button(360,140,185,30,"Lancer le sèche linge");
 bdeactSL = new Button(550,140,185,30,"Désactiver le sèche linge");
 bdeactLL = new Button(550,100,185,30,"Désactiver le lave linge");
 bdeactLV = new Button(550,60,185,30,"Désactiver le lave vaisselle");
+
+bRemplirSL = new Button(570,530,140,30,"remplir sèche linge");
+bRemplirLV = new Button(710,530,140,30,"remplir lave vaisselle");
+bRemplirLL = new Button(850,530,140,30,"remplir lave linge");
 
 //bouton tondeuse
 b_activetondeuse = new Button(400,60,185,30,"Activer la tondeuse" );
@@ -444,6 +453,17 @@ bProprio.display();
 bProprioQuitte.display();
 bRetour.update_mouse();
 bRetour.updatecolor(true);
+
+bRemplirSL.update_mouse();
+bRemplirSL.updatecolor(!secheLinge.rempli);
+bRemplirSL.display();
+bRemplirLL.update_mouse();
+bRemplirLL.updatecolor(!laveLinge.rempli);
+bRemplirLL.display();
+bRemplirLV.update_mouse();
+bRemplirLV.updatecolor(!laveVaisselle.rempli);
+bRemplirLV.display();
+
 if (menu == 0){
 bMenuMachine.update_mouse();
 bMenuAlarme.update_mouse();
@@ -686,6 +706,20 @@ switch(num_event){
   //case where user leaves home
   case 23:
     anim_proprio = proprietaireApproche.run_proprietaire(proprietaireApproche.proprietaire_gard(false));
+    num_event = 0;
+    break;
+   case 24:
+    secheLinge.rempli = true;
+    num_event = 0;
+    break;
+    case 25:
+    laveVaisselle.rempli = true;
+    num_event = 0;
+    break;
+    case 26:
+    laveLinge.rempli = true;
+    num_event = 0;
+    break;
 }
 if(tondre == true){
 tondeuse.movetondeuse(hours);}
@@ -809,5 +843,8 @@ void mousePressed(){
   if (b_days.select()){num_event =20;}
   if (b_month.select()){num_event =21;}
   if (bProprio.select()){num_event = 22;approche = true;}
-  if (bProprioQuitte.select()){num_event = 22;approche = false;}
+  if (bProprioQuitte.select()){num_event = 23;approche = false;}
+  if (bRemplirSL.select()){num_event = 24;}
+  if (bRemplirLV.select()){num_event = 25;}
+  if (bRemplirLL.select()){num_event = 26;}
 }

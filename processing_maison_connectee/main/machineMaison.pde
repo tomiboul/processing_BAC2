@@ -1,10 +1,8 @@
 class machineMaison {
   int x, y, xInit, yInit;
   PImage activ_image, deactiv_image, standby_image;
-  boolean activate;
-  boolean standby;
-  int heure_debut_cycle;
-  int minute_debut_cycle;
+  boolean activate, standby, rempli;
+  int heure_debut_cycle, minute_debut_cycle;
 
   public machineMaison ( int nouveauX , int nouveauY , PImage activImage, PImage deactivImage, PImage standbyImage) { 
   x = nouveauX;
@@ -18,6 +16,7 @@ class machineMaison {
   standby = false;
   heure_debut_cycle = 0;
   minute_debut_cycle = 0;
+  rempli = false;
   }
   
   public boolean getStandby(){

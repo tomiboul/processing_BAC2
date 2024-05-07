@@ -4,23 +4,21 @@ class MachineEnStandby{
     }
 
     boolean MachineEnStandby_gard(int machine){
-      if (hours >= 22 || hours <= 6){
-        if (machine == 0){
-          if (secheLinge.getStandby()==false){
+        if (machine == 0 ){
+          if (secheLinge.getStandby()==false && secheLinge.rempli){
           return true;
           }
         }
         if (machine == 1){
-          if (laveVaisselle.getStandby()==false){
+          if (laveVaisselle.getStandby()==false && laveVaisselle.rempli){
           return true;
           }
         }
         if (machine == 2){
-          if (laveLinge.getStandby()==false){
+          if (laveLinge.getStandby()==false && laveLinge.rempli){
           return true;
           }
         }
-      }
     return false;
     }
 

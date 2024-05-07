@@ -25,18 +25,21 @@ class MachineArret{
       if (MachineArret_gard(machine)){
         if (machine == 0){
           secheLinge.activate(false);
+          secheLinge.rempli = false;
           if (machineEnStandby.MachineEnStandby_gard(machine) ){
             secheLinge.standby(true);
           }
         }
         if (machine ==1){
           laveVaisselle.activate(false);
+          laveVaisselle.rempli = false;
           if (machineEnStandby.MachineEnStandby_gard(machine) ){
             laveVaisselle.standby(true);
           }
         }
         if (machine == 2){
           laveLinge.activate(false);
+          laveLinge.rempli = false;
           if (machineEnStandby.MachineEnStandby_gard(machine) ){
             laveLinge.standby(true);
           }
