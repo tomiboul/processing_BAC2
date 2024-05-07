@@ -1,11 +1,11 @@
 int decal, num_event,m, menu;
 
-PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,alarmeActivée,alarmeDésactivée,eau,electricite, paseau, paselectricite, laveVaisselleEnStandby, laveLingeEnStandby, secheLingeEnStandby;
+PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,alarmeActivée,alarmeDésactivée,eau,electricite, paseau, paselectricite, laveVaisselleEnStandby, laveLingeEnStandby, secheLingeEnStandby,jeanBernard, policier_image;
 
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 
-boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre;
+boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre, proprietairePresent, policierPresent, anim_voleur;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
 Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_activetondeuse, brancherSeulementAlarmeExterieur, b_days, b_month;
@@ -20,6 +20,8 @@ Ouvre_volets ouvre_volets;
 Ferme_volets ferme_volets;
 tondeuse tondeuse;
 humain voleur;
+humain proprietaire;
+humain policier;
 telephone telephone;
 machineMaison laveLinge; 
 machineMaison laveVaisselle; 
@@ -44,11 +46,14 @@ menu = 0;
 //jardin
 tondeuseImage = loadImage("tondeuseImage.jpg");
 tondeuse = new tondeuse(0,600,tondeuseImage );
-
+anim_voleur = false;
 //humain
 voleurProcessing = loadImage("voleurProcessing.png");
-voleur = new humain(1100,500,voleurProcessing );
-
+voleur = new humain(1200,500,voleurProcessing );
+jeanBernard = loadImage("JeanBernard.png");
+proprietaire = new humain(500,500,jeanBernard);
+policier_image = loadImage("policier.png");
+policier = new humain(1200,500,policier_image);
 //telephone
 telephoneProcessing = loadImage("telephoneProcessing.png");
 telephone = new telephone(200,0,telephoneProcessing);
@@ -370,7 +375,7 @@ switch(dayOfTheWeek) {
 
 // tondeuse
 tondeuse.display();
-
+if (hours<8 || hours >21){tondre = false;}
 //machines de la maison
 laveLinge.checkPowerAndWater(1);
 laveVaisselle.checkPowerAndWater(2);
@@ -397,6 +402,13 @@ voleur.displayHumain();
 alarmeTotale.activation = true;
 }
 
+if (proprietairePresent == true){
+proprietaire.displayHumain();
+}
+
+if (policierPresent == true){
+policier.displayHumain();
+}
 //alarme - jardin
 if (alarmeTotale.activation){
 alarmeExterieur.activation = true;
@@ -605,12 +617,13 @@ switch(num_event){
     num_event = -1;
     break;
   case 12:
-    voleurPresent = true;
+    anim_voleur = true;
     num_event =-1;
     break;
   case 13:
     voleurPresent = false;
     alarmeTotale.DesactivateAlarm();
+    
     alarmeExterieur.DesactivateAlarm();
     num_event = -1;
     break;
@@ -654,7 +667,14 @@ switch(num_event){
 }
 if(tondre == true){
 tondeuse.movetondeuse(hours);}
-
+if(tondre == false){
+ if (tondeuse.x != 0) {
+    tondeuse.moveLeft();
+}
+if (tondeuse.x == 0 && tondeuse.y != 600) {
+    tondeuse.upTondeuse();
+}
+}
 if (anim_volet_ouvre){
   for (int i =0; i<volets.size();i++){
     if (volets.get(i).getHeight() >= 10){
@@ -670,31 +690,47 @@ if (anim_volet_ferme){
       volets.get(i).changeHeight(5);
     }else{anim_volet_ferme=false;}
   }
+}
+
+if (anim_voleur){
+  if (voleur.x >= 1100){
+  voleur.moveLeft();
+  voleur.displayHumain();
+  } else{
+    voleurPresent = true;
   }
+}
 
 }
+
 void mousePressed(){
+  //boutons fenetres /volets
   if (b_ouvre_fenetres.select()){num_event = 0;}
   if (b_ferme_fenetres.select()){num_event = 1;}
   if (b_ouvre_volets.select()){num_event = 2;}
   if (b_ferme_volets.select()){num_event = 3;}
+  //boutons temps
   if (b_hours.select()){num_event=4;}
   if (b_minutes.select()){num_event=5;}
+  //boutons machines
   if (bActLV.select()){num_event=6; m = 1;}
   if (bActLL.select()){num_event=6; m = 2;}
   if (bActSL.select()){num_event=6; m = 0;}
   if (bdeactLV.select()){num_event=7; m = 1;}
   if (bdeactLL.select()){num_event=7; m = 2;}
   if (bdeactSL.select()){num_event=7; m = 0;}
+  //boutons menu du smartphone
   if (bMenuMachine.select()){menu =2;} 
   if (bMenuAlarme.select()){menu = 3;}
   if (bMenuTonte.select()){menu = 4;}
   if (bVolets.select()){menu = 1;}
   if (bRetour.select()){menu = 0;}
+  //boutons ressources
   if (coupureEau.select()){num_event = 8;} 
   if (coupureElectricite.select()){num_event = 9;}
   if (allumerEau.select()){num_event = 10;} 
   if (allumerElectricite.select()){num_event = 11;}
+  //boutons humains
   if (voleurVient.select()){num_event = 12;}
   if (voleurPart.select()){num_event = 13;}
   if (activeToutAlarme.select()){num_event =14;}
