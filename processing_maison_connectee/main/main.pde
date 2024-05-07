@@ -424,6 +424,7 @@ alarmeExterieur.activation = true;
 }
 
 if (proprietairePresent == true&&anim_proprio==0){
+  proprietaire.displayHumain();
 anim_proprio = proprietaireApproche.run_proprietaire(approche);
 }
 
@@ -795,13 +796,16 @@ if (anim_proprio==1){
     proprietaire.moveUp(5);
   }else{
     anim_proprio = 0;
+    proprietairePresent = true;
   }  
+  proprietaire.displayHumain();
 }
 if (anim_proprio == 2){
   if(proprietaire.y <= 900){
     proprietaire.moveDown(5);
   } else{
     anim_proprio = 0;
+    proprietairePresent = false;
   }
   proprietaire.displayHumain();
 }
