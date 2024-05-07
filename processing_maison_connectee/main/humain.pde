@@ -20,10 +20,12 @@ class humain{
   
   void moveUp(int change){
     this.y = y+change;
+    this.y = y-change;
   }
-  
+
   void moveDown(int change){
     this.y = y-change;
+    this.y = y+change;
   }
 
   

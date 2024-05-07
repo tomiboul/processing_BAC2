@@ -55,7 +55,7 @@ anim_proprio = 0;
 voleurProcessing = loadImage("voleurProcessing.png");
 voleur = new humain(1200,500,voleurProcessing );
 jeanBernard = loadImage("JeanBernard.png");
-proprietaire = new humain(500,500,jeanBernard);
+proprietaire = new humain(700,900,jeanBernard);
 policier_image = loadImage("policier.png");
 policier = new humain(-100,500,policier_image);
 anim_arrest = false;
@@ -107,8 +107,8 @@ brancherAlarmeTotale             = new Button (350,60 ,180,30,"Brancher l'alarme
 brancherSeulementAlarmeExterieur = new Button (390,140,260,30,"Brancher seulement l'alarme extérieur");
 debrancherAlarmeTotale           = new Button (350,100,180,30,"Débrancher les alarmes");
 
-bProprio = new Button(700,800,180,40,"Proprietaire approche");
-bProprioQuitte = new Button(890,800,180,40,"Proprietaire s'éloigne");
+bProprio = new Button(1300,450,150,30,"Proprietaire approche");
+bProprioQuitte = new Button(1300,500,150,30,"Proprietaire s'éloigne");
 
 //ressource 
 water = true;
@@ -415,11 +415,16 @@ secheLinge.vibrate();
 
 if (voleurPresent == true && !anim_arrest){
 voleur.displayHumain();
+if(alarmeTotale.branché == true){
 alarmeTotale.activation = true;
 }
+if(alarmeExterieur.branché == true){
+alarmeExterieur.activation = true;
+}
+}
 
-if (proprietairePresent == true){
-proprietaire.displayHumain();
+if (proprietairePresent == true&&anim_proprio==0){
+anim_proprio = proprietaireApproche.run_proprietaire(approche);
 }
 
 if (policierPresent == true && !anim_arrest){

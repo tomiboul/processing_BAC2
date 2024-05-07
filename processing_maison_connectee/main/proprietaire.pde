@@ -11,18 +11,16 @@ class Proprietaire{
   }
   }
   
-  int run_proprietaire(boolean approche){
+   int run_proprietaire(boolean approche){
+    if (proprietaire_gard(approche)){
     if (proprietaire_gard(approche)){
       if (approche == true){
         return 1;
       }else{
         return 2;
       }
-    }
-    return 0;
-  
-  }
-  
-  
-  
+    } 
+}
+return 0;
+}
 }
