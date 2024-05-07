@@ -1,0 +1,44 @@
+ class Volets{
+  float x;
+  float y;
+  boolean ouvert,ouvert_automatiquement;
+  PImage img;
+  float h;
+  Volets(float x, float y, float h){
+    this.x=x;
+    this.y=y;
+    ouvert = false;
+    this.h = h;
+  }
+
+   void ouvreFerme(boolean prochainEtat){
+    ouvert = prochainEtat;
+  }
+
+  boolean getOuvert(){
+    return ouvert;
+  }
+  
+  void ouverture_automatique(){
+    if (hours <= 7 && hours >= 0){
+      ouvert = false;
+    }
+    if (hours >= 7 && hours <= 23){
+      if (!ouvert){
+        ouvert = true;
+      }
+    }
+  }
+  
+  void display(){
+    img = loadImage("voletfermé.png");
+    image(img,x-2,y-2,155,h);
+  }
+
+  float getHeight(){
+    return h;
+  }
+  void changeHeight(float h){
+    this.h += h;
+  }
+}
