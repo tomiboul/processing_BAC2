@@ -3,7 +3,7 @@ class Ouvre_volets{
   }
 
   boolean ouvre_volets_gard(){
-    if (!alarmeTotale.branché){
+    if (alarmeExterieur.branché){
       for (int i=0; i< volets.size();i++){
         if (volets.get(i).getOuvert() == true){
           return false;

@@ -8,12 +8,8 @@ ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
-Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_activetondeuse, brancherSeulementAlarmeExterieur, b_days, b_month;
-int hours = 0;
-int minutes = 0;
-int days = 0;
-int month = 0;
-int dayOfTheWeek; 
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_active_tondeuse, brancherSeulementAlarmeExterieur, b_days, b_month;
+
 Ouvre_fenetre ouvre_fenetre;
 Ferme_fenetre ferme_fenetre;
 Ouvre_volets ouvre_volets;
@@ -31,7 +27,6 @@ MachineArret machineArret;
 MachineEnStandby machineEnStandby;
 MachineArretStandby machineArretStandby;
 Ressource ressource;
-Fenetres ouveture_automatique;
 
 void setup() {
 size(1400,850);
@@ -43,7 +38,7 @@ wood = loadImage("woodtexture.jpg");
 menu = 0;
 //jardin
 tondeuseImage = loadImage("tondeuseImage.jpg");
-tondeuse = new tondeuse(0,600,tondeuseImage );
+tondeuse = new tondeuse(1,600,tondeuseImage );
 
 //humain
 voleurProcessing = loadImage("voleurProcessing.png");
@@ -89,11 +84,11 @@ bMenuTonte   = new Button(450,180,180,30,"Afficher le menu tondeuse");
 bVolets      = new Button(450,60,180,30,"Afficher le menu volets");
 bRetour = new Button(310,195,100,30,"Retour");
 
-desactiveToutAlarme              = new Button (550,100,200,30,"Désactiver l'alarme branchée");
-activeToutAlarme                 = new Button (550,60 ,200,30,"Activer l'alarme branchée");
+desactiveToutAlarme              = new Button (550,100,200,30,"Désactiver toutes les alarmes");
+activeToutAlarme                 = new Button (550,60 ,200,30,"Activer toutes les alarmes");
 brancherAlarmeTotale             = new Button (350,60 ,180,30,"Brancher l'alarme totale");
 brancherSeulementAlarmeExterieur = new Button (390,140,260,30,"Brancher seulement l'alarme extérieur");
-debrancherAlarmeTotale           = new Button (350,100,180,30,"Débrancher les alarmes");
+debrancherAlarmeTotale           = new Button (350,100,180,30,"Débrancher l'alarme totale");
 
 //ressource 
 water = true;
@@ -127,9 +122,7 @@ bActSL   = new Button(360,140,185,30,"Lancer le sèche linge");
 bdeactSL = new Button(550,140,185,30,"Désactiver le sèche linge");
 bdeactLL = new Button(550,100,185,30,"Désactiver le lave linge");
 bdeactLV = new Button(550,60,185,30,"Désactiver le lave vaisselle");
-
-//bouton tondeuse
-b_activetondeuse = new Button(400,60,185,30,"Activer la tondeuse" );
+b_active_tondeuse = new Button (400,60,185,30,"Activer la tondeuse" );
 
 volets.add(new Volets(580,350,95));
 volets.add(new Volets(900,350,95));
@@ -367,9 +360,10 @@ switch(dayOfTheWeek) {
   case 6: text("dimanche",520,40);
   break;
 }
-
 // tondeuse
 tondeuse.display();
+if (hours>=8 & hours <= 21){
+tondre = true;}
 
 //machines de la maison
 laveLinge.checkPowerAndWater(1);
@@ -389,7 +383,6 @@ secheLinge.displayMachine();
 laveLinge.vibrate();
 laveVaisselle.vibrate();
 secheLinge.vibrate();
-
 
 //humain
 if (voleurPresent == true){
@@ -496,7 +489,7 @@ if (menu == 3){
   brancherAlarmeTotale.display();
   
   brancherSeulementAlarmeExterieur.update_mouse();
-  brancherSeulementAlarmeExterieur.updatecolor(!alarmeExterieur.branché );
+  brancherSeulementAlarmeExterieur.updatecolor(!alarmeExterieur.branché);
   brancherSeulementAlarmeExterieur.display();
   
   debrancherAlarmeTotale.update_mouse();
@@ -507,7 +500,7 @@ if (menu == 3){
   desactiveToutAlarme.updatecolor(alarmeTotale.activation || alarmeExterieur.activation);
   desactiveToutAlarme.display();
   
-  activeToutAlarme.updatecolor(!alarmeTotale.activation && alarmeTotale.branché || !alarmeExterieur.activation && alarmeExterieur.branché);
+  activeToutAlarme.updatecolor(!alarmeTotale.activation && alarmeTotale.branché);
   activeToutAlarme.update_mouse();
   activeToutAlarme.display();
 }
@@ -515,12 +508,9 @@ if (menu == 3){
 
 //menu = 4 -> tonte
 if (menu == 4){
+  b_active_tondeuse.display();
+  b_active_tondeuse.updatecolor(tondre);
   bRetour.display();
-  b_activetondeuse.update_mouse();
- if(hours >=8 && hours <=21){ 
-  b_activetondeuse.updatecolor(true);}
-  else{b_activetondeuse.updatecolor(false);}
-  b_activetondeuse.display();
 }
 
 // boutons - humains
@@ -545,12 +535,8 @@ allumerEau.updatecolor(water==false);
 allumerEau.display();
 
 
-for (int i =0; i< fenetres.size();i++){
-  volets.get(i).ouverture_automatique();
-  if (volets.get(i).ouvert_automatiquement){
-    anim_volet_ouvre = ouvre_volets.run_ouvre_volets();
-  }
-}
+
+
 //display volets et fenetres
 for (int i =0; i< fenetres.size();i++){
   fenetres.get(i).display();
@@ -632,7 +618,6 @@ switch(num_event){
     break;
   case 16:
   alarmeTotale.DébrancherRebrancherAlarmeInterieur(true);
-  alarmeExterieur.DébrancherRebrancherAlarmeInterieur(false);
   num_event = -1;
     break;
   case 17:
@@ -642,11 +627,10 @@ switch(num_event){
     break;
   case 18:
   alarmeExterieur.DébrancherRebrancherAlarmeInterieur(true);
-  alarmeTotale.DébrancherRebrancherAlarmeInterieur(false);
   num_event = -1;
     break;
   case 19:
-  tondre = true;
+  tondeuse.moveRight();
   num_event = -1;
     break;
    case 20:
@@ -658,8 +642,7 @@ switch(num_event){
     num_event = -1;
     break;
 }
-if(tondre == true){
-tondeuse.movetondeuse(hours);}
+
 
 if (anim_volet_ouvre){
   for (int i =0; i<volets.size();i++){
@@ -673,10 +656,11 @@ if (anim_volet_ferme){
 
   for (int i =0; i<volets.size();i++){
     if (volets.get(i).getHeight() <= 95){
+      println(i);
       volets.get(i).changeHeight(5);
     }else{anim_volet_ferme=false;}
   }
-  }
+}
 
 }
 void mousePressed(){
@@ -708,7 +692,7 @@ void mousePressed(){
   if (brancherAlarmeTotale.select()){num_event =16;}
   if (debrancherAlarmeTotale.select()){num_event =17;}
   if (brancherSeulementAlarmeExterieur.select()){num_event =18;}
-  if (b_activetondeuse.select()){num_event =19;}
+  if (b_active_tondeuse.select()){num_event =19;}
   if (b_days.select()){num_event =20;}
   if (b_month.select()){num_event =21;}
 }

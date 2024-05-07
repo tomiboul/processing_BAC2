@@ -15,7 +15,7 @@ class Fenetres{
   boolean getOuvert(){
     return ouvert;
   }
-  
+ 
   void display(){
     pushStyle();
     strokeWeight(3);
