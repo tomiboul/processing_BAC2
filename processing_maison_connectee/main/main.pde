@@ -72,7 +72,7 @@ laveLingeEnStandby = loadImage("machineALaverOuvertEnStandby.png");
 laveLinge = new machineMaison(760,555, laveLingeFerme,laveLingeOuvertProcessing, laveLingeEnStandby);
 laveVaisselleProcessing = loadImage("laveVaisselleOuvert.png");
 laveVaisselleFerme = loadImage("laveVaisselle.png");
-laveVaisselleEnStandby = loadImage("illustrlavevaisselleferméenstandby.jpg");
+laveVaisselleEnStandby = loadImage("illustrlavevaissellefermeenstandby.jpg");
 laveVaisselle = new machineMaison(640,550, laveVaisselleFerme,laveVaisselleProcessing, laveVaisselleEnStandby);
 secheLingeOuvertProcessing = loadImage("secheLingeOuvert.png");
 secheLingeFerme = loadImage("secheLinge.png");
@@ -85,8 +85,8 @@ machineEnStandby = new MachineEnStandby();
 machineArretStandby = new MachineArretStandby();
 
 //alarme - jardin
-alarmeJardinActivée = loadImage("alarmeJardinActivée.png");
-alarmeJardinDésactivée = loadImage("alarmeJardinDésactivée.png");
+alarmeJardinActivée = loadImage("alarmeJardinActivee.png");
+alarmeJardinDésactivée = loadImage("alarmeJardinDesactivee.png");
 alarmeExterieur = new alarme(425,325,alarmeJardinDésactivée, alarmeJardinActivée);
 alarmeExterieurAlumée = false;
 //alarme - maison

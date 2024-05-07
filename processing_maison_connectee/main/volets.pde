@@ -30,7 +30,7 @@ class Volets{
   }
   
   void display(){
-    img = loadImage("voletfermé.png");
+    img = loadImage("voletferme.png");
     image(img,x-2,y-2,155,h);
   }
 
