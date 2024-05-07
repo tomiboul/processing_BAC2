@@ -44,8 +44,8 @@ wood = loadImage("woodtexture.jpg");
 menu = 0;
 
 //jardin
-tondeuseImage = loadImage("tondeuseImage.jpg");
-tondeuse = new tondeuse(0,600,tondeuseImage );
+tondeuseImage = loadImage("tondeusedetouree.png");
+tondeuse = new tondeuse(0,600,tondeuseImage);
 anim_voleur = false;
 anim_policier=false;
 proprietaireApproche = new Proprietaire();
@@ -66,16 +66,16 @@ telephone = new telephone(200,0,telephoneProcessing);
 lune_image = loadImage("lune.png");
 
 //machine de la maison
-laveLingeOuvertProcessing = loadImage("laveLingeOuvertProcessing.png");
-laveLingeFerme = loadImage("machineALaverOuvert.png");
+laveLingeOuvertProcessing = loadImage("laveLingeFerme.png");
+laveLingeFerme = loadImage("laveLingeOuvert.png");
 laveLingeEnStandby = loadImage("machineALaverOuvertEnStandby.png");
 laveLinge = new machineMaison(760,555, laveLingeFerme,laveLingeOuvertProcessing, laveLingeEnStandby);
-laveVaisselleProcessing = loadImage("laveVaisselleProcessing.png");
-laveVaisselleFerme = loadImage("illustrlavevaissellefermé.jpg");
+laveVaisselleProcessing = loadImage("laveVaisselleOuvert.png");
+laveVaisselleFerme = loadImage("laveVaisselle.png");
 laveVaisselleEnStandby = loadImage("illustrlavevaisselleferméenstandby.jpg");
 laveVaisselle = new machineMaison(640,550, laveVaisselleFerme,laveVaisselleProcessing, laveVaisselleEnStandby);
-secheLingeOuvertProcessing = loadImage("secheLingeOuvertProcessing.png");
-secheLingeFerme = loadImage("sechelingeferme.jpg");
+secheLingeOuvertProcessing = loadImage("secheLingeOuvert.png");
+secheLingeFerme = loadImage("secheLinge.png");
 secheLingeEnStandby = loadImage("sechelingefermeenstandby.jpg");
 secheLinge = new machineMaison(510,550, secheLingeFerme, secheLingeOuvertProcessing, secheLingeEnStandby);
 
@@ -90,9 +90,10 @@ alarmeJardinDésactivée = loadImage("alarmeJardinDésactivée.png");
 alarmeExterieur = new alarme(425,325,alarmeJardinDésactivée, alarmeJardinActivée);
 alarmeExterieurAlumée = false;
 //alarme - maison
-alarmeActivée = loadImage("alarmeActivé.png");
-alarmeDésactivée = loadImage("alarmeDésactivé.png");
-alarmeTotale = new alarme(1050,325,alarmeDésactivée,alarmeActivée);
+alarmeActivée = loadImage("alarmeJardinActiveeRotated.png");
+alarmeDésactivée = loadImage("alarmeJardinDesactiveeRotated.png");
+rotate(PI/2);
+alarmeTotale = new alarme(815,200,alarmeDésactivée,alarmeActivée);
 
 //boutons téléphone
 bMenuMachine = new Button(450,100,180,30,"Afficher le menu machine");
@@ -176,7 +177,7 @@ background(125, 166, 232);
 }
 
 if (hours < 8 && hours > 5){
-background(255, 57, 1);
+background(250, 116, 67);
 }
 
 if (hours <= 5 || hours > 21){
@@ -184,8 +185,45 @@ background(15, 12, 46);
 }
 
 if (hours <= 20 && hours > 19){
-background(247, 97, 250);
+background(250, 116, 67);
 }
+
+//sun and moon
+if(hours > 21 || hours <= 5){
+image(lune_image,0,0);
+} 
+if((hours > 5 && hours <8)|| (hours > 19 && hours <= 20)){
+  
+  pushStyle();
+  noStroke();
+  fill(255, 203, 61);
+  circle(200,280,60);
+  fill(255,255,255);
+  circle(200,280,50);
+  popStyle();
+}
+
+if(hours >= 8 && hours <= 19){
+ // line of sun
+pushStyle();
+stroke(250,200,0);
+strokeWeight(4);
+line(70,20,70,40); //x = 200
+line(115,20,20,130);
+line(110,120,20,30);
+line(70,80,70,140);
+line(0,70,140,70);
+line(70,10,70,40);
+popStyle();
+pushStyle();
+noStroke();
+fill(255, 203, 61);
+circle(70,70,60);
+fill(255,255,255);
+circle(70,70,50);
+popStyle();
+}
+
 fill(51, 166, 84);
 quad(0,300,660,240,660,850,0,850);
 rect(1050,250,500,300);
@@ -217,6 +255,8 @@ rect(1120,200,80,500);
 fill(121, 128, 140);
 rect(1110,180,100,20);
 rect(480,700,740,20);
+//alarme - maison
+alarmeTotale.displayAlarme();
 //roof
 quad(400,330,850,180,850,200,420,345);
 quad(850,180,1300,330,1280,345,850,200);
@@ -241,24 +281,7 @@ rect(950, 820,100,15);
 rect(1100, 820,100,15);
 rect(1250, 820,100,15);
 rect(1400, 820,100,15);
-// line of sun
-pushStyle();
-stroke(250,200,0);
-strokeWeight(4);
-line(70,20,70,40); //x = 200
-line(115,20,20,130);
-line(110,120,20,30);
-line(70,80,70,140);
-line(0,70,140,70);
-line(70,10,70,40);
-popStyle();
-//sun
-pushStyle();
-noStroke();
-circle(70,70,60);
-fill(255,255,255);
-circle(70,70,50);
-popStyle();
+
 
 //concrete on the right
 fill(212, 200, 199);
@@ -271,36 +294,7 @@ quad(0,720,1220,720,1300,780,0,780);
 rect(0,700,480,20);
 rect(0,600,500,100);
 
-//latte -> temporaire  100px chaque trait
-pushStyle();
-strokeWeight(10);
-stroke(0);
-line(0,0,1400,0);
-line(0,0,0,850);
-strokeWeight(5);
-line(100,0,100,10);
-line(200,0,200,10);
-line(300,0,300,10);
-line(400,0,400,10);
-line(500,0,500,10);
-line(600,0,600,10);
-line(700,0,700,10);
-line(800,0,800,10);
-line(900,0,900,10);
-line(1000,0,1000,10);
-line(1100,0,1100,10);
-line(1200,0,1200,10);
-line(1300,0,1300,10);
-line(0,100,10,100);
-line(0,200,10,200);
-line(0,300,10,300);
-line(0,400,10,400);
-line(0,500,10,500);
-line(0,600,10,600);
-line(0,700,10,700);
-line(0,800,10,800);
-popStyle();
-//fin latte
+
 
 //barrière 
 pushStyle();
@@ -415,12 +409,6 @@ secheLinge.vibrate();
 
 if (voleurPresent == true && !anim_arrest){
 voleur.displayHumain();
-if(alarmeTotale.branché == true){
-alarmeTotale.activation = true;
-}
-if(alarmeExterieur.branché == true){
-alarmeExterieur.activation = true;
-}
 }
 
 if (proprietairePresent == true&&anim_proprio==0){
@@ -433,14 +421,19 @@ policier.displayHumain();
 }
 
 //alarme - jardin
-if (alarmeTotale.activation){
-alarmeExterieur.activation = true;
-fill(255, 0, 0, 127);
-quad(400,230,535,230,485,350,450,350);
+if (alarmeExterieur.activation){
+  fill(200, 0, 0, 100);
+  quad(400,230,535,230,485,345,450,345);
+  quad(450,365,485,365,535,500,400,500);
+  if (alarmeTotale.activation){
+    fill(200, 0, 0, 100);
+    quad(740,170,840,220,840,250,740,290);
+    quad(870,220,970,170,970,290,870,250);
 }
+}
+
 alarmeExterieur.displayAlarme();
-//alarme - maison
-alarmeTotale.displayAlarme();
+
 
 if (water == true){
 image(eau,820,375,50,50);}
@@ -558,7 +551,7 @@ if (menu == 3){
   debrancherAlarmeTotale.display();
   
   desactiveToutAlarme.update_mouse();
-  desactiveToutAlarme.updatecolor(alarmeTotale.activation || alarmeExterieur.activation);
+  desactiveToutAlarme.updatecolor(((alarmeTotale.activation || alarmeExterieur.activation)&&proprietairePresent)||(!voleurPresent&&(alarmeTotale.activation || alarmeExterieur.activation)));
   desactiveToutAlarme.display();
   
   activeToutAlarme.updatecolor(!alarmeTotale.activation && alarmeTotale.branché || !alarmeExterieur.activation && alarmeExterieur.branché);
@@ -660,6 +653,13 @@ switch(num_event){
     break;
   case 12:
     anim_voleur = true;
+    if(alarmeTotale.branché == true){
+      alarmeTotale.activation = true;
+    }
+    if(alarmeExterieur.branché == true){
+      alarmeExterieur.activation = true;
+    }
+    
     num_event =-1;
     break;
   case 13:
@@ -675,13 +675,15 @@ switch(num_event){
   num_event = -1;
     break;
   case 15:
+  if (proprietairePresent||!voleurPresent){
   alarmeTotale.DesactivateAlarm();
   alarmeExterieur.DesactivateAlarm();
+  }
   num_event = -1;
     break;
   case 16:
   alarmeTotale.DébrancherRebrancherAlarmeInterieur(true);
-  alarmeExterieur.DébrancherRebrancherAlarmeInterieur(false);
+  alarmeExterieur.DébrancherRebrancherAlarmeInterieur(true);
   num_event = -1;
     break;
   case 17:
@@ -709,24 +711,24 @@ switch(num_event){
   //case where user come near
   case 22:
     anim_proprio = proprietaireApproche.run_proprietaire(proprietaireApproche.proprietaire_gard(approche));
-    num_event = 0;
+    num_event = -1;
     break;
   //case where user leaves home
   case 23:
     anim_proprio = proprietaireApproche.run_proprietaire(proprietaireApproche.proprietaire_gard(false));
-    num_event = 0;
+    num_event = -1;
     break;
    case 24:
     secheLinge.rempli = true;
-    num_event = 0;
+    num_event = -1;
     break;
     case 25:
     laveVaisselle.rempli = true;
-    num_event = 0;
+    num_event = -1;
     break;
     case 26:
     laveLinge.rempli = true;
-    num_event = 0;
+    num_event = -1;
     break;
 }
 if(tondre == true){
@@ -812,7 +814,7 @@ if (anim_proprio == 2){
   proprietaire.displayHumain();
 }
 
-image(lune_image,100,100);
+
 }
 
 void mousePressed(){

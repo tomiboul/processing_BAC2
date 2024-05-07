@@ -83,12 +83,12 @@ class machineMaison {
   
   public void displayMachine(){
     if(activate){
-    image(activ_image,x,y, 150,150);
+    image(activ_image,x-30,y, 180,180);
     }else if (standby) {
-    image(standby_image,x,y, 150,150);
+    image(standby_image,x+10,y+30, 100,120);
     }
     else{
-    image(deactiv_image,x,y, 150,150);
+    image(deactiv_image,x-30,y, 180,180);
     }
   }
 

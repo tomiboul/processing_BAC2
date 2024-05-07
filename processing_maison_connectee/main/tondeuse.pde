@@ -17,10 +17,10 @@ class tondeuse {
     if(x ==400 &&y <650 && h+1 == hours ){downTondeuse();}
     if(x>0 && y==650 && h+1 == hours){moveLeft();}
     hours +=1;
-    if (x==0 && y<720 && h+2 == hours ){downTondeuse();}
-    if (x<400 && y==720 && h+2 == hours){moveRight();}
+    if (x==0 && y<700 && h+2 == hours ){downTondeuse();}
+    if (x<400 && y==700 && h+2 == hours){moveRight();}
     hours +=1;
-    if (x<1200 && y==720 && h+3 == hours){moveRight();}
+    if (x<1200 && y==700 && h+3 == hours){moveRight();}
     hours +=4;
     if (h+4 ==hours ){tondre=false;}
   }
@@ -44,7 +44,7 @@ class tondeuse {
   }
 
   public void display(){
-    image(images,x,y, 100,60);
+    image(images,x,y, 100,100);
   }
 
 }

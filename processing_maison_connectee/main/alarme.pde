@@ -33,11 +33,14 @@ class alarme {
   }
    
   void displayAlarme(){
+    
     if (!activation){
+    
     image(desactivationImage,x,y, 80,65);
+
   }else {
     image(activationImage,x,y, 80,65);
     }
-
+   
   }
 }
