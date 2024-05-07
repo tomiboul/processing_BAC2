@@ -4,7 +4,7 @@ class MachineEnMarche{
     }
 
     boolean MachineEnMarche_gard(int machine){
-      if ((hours >= 22 || hours <= 6 ) && power == true){
+      if (((hours >= 22 || hours <= 6 ) && power == true) || (days == 6 || days == 5)){
         if (machine == 0){
           if (secheLinge.getActivate()==false && secheLinge.getStandby()==true){
           return true;

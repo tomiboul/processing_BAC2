@@ -21,13 +21,11 @@ class Volets{
   }
   
   void ouverture_automatique(){
-    if (hours <= 7 && hours >= 0){
+    if (hours <= 7 && hours >= 0 && ouvert_automatiquement){
       ouvert_automatiquement = false;
     }
-    if (hours >= 7 && hours <= 23){
-      if (!ouvert_automatiquement && !ouvert){
+    if (hours >= 7 && hours <= 23 && !ouvert_automatiquement){
         ouvert_automatiquement = true;
-      }
     }
   }
   

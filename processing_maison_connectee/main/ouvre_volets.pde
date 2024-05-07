@@ -6,6 +6,7 @@ class Ouvre_volets{
     if (alarmeExterieur.branché){
       for (int i=0; i< volets.size();i++){
         if (volets.get(i).getOuvert() == true){
+          println("volet " + volets.get(i).getOuvert());
           return false;
         }
       }
@@ -23,8 +24,4 @@ class Ouvre_volets{
     }
     return false;
   }
-
-
-
-
 }
