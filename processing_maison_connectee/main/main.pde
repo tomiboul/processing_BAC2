@@ -435,6 +435,8 @@ policier.displayHumain();
 //alarme - jardin
 if (alarmeTotale.activation){
 alarmeExterieur.activation = true;
+fill(255, 0, 0, 127);
+quad(400,230,535,230,485,350,450,350);
 }
 alarmeExterieur.displayAlarme();
 //alarme - maison
