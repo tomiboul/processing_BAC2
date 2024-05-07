@@ -545,13 +545,6 @@ allumerEau.updatecolor(water==false);
 allumerEau.display();
 
 
-for (int i =0; i< fenetres.size();i++){
-  volets.get(i).ouverture_automatique();
-  if (volets.get(i).ouvert_automatiquement){
-    anim_volet_ouvre = ouvre_volets.run_ouvre_volets();
-    print("anim " + anim_volet_ouvre);
-  }
-}
 //display volets et fenetres
 for (int i =0; i< fenetres.size();i++){
   fenetres.get(i).display();

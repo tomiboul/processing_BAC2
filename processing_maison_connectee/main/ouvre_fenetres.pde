@@ -3,6 +3,7 @@ class Ouvre_fenetre{
   }
 
   boolean ouvre_fenetre_gard(){
+    
     if (!alarmeTotale.branché){
       for (int i =0; i< volets.size();i++){
         if (volets.get(i).getOuvert() == false || fenetres.get(i).getOuvert()== true){

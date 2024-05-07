@@ -10,10 +10,38 @@ void increaseDays (){
 
 void increaseHours (){
   hours = (hours + 1);
+  if (hours == 7){
+    if (!alarmeTotale.branché ||alarmeExterieur.branché){
+    for (int i = 0;i < volets.size();i++){
+      volets.get(i).ouvert = true;
+    }
+    anim_volet_ouvre = true;
+    }
+  }
+  if (hours == 23){
+    for (int i = 0;i < volets.size();i++){
+      fenetres.get(i).ouvert = false;
+      volets.get(i).ouvert = false;
+    }
+    anim_volet_ferme = true;
+  }
 }
 
 void increaseMinutes (){
   minutes = (minutes + 1);
+  if (hours == 7){
+    for (int i = 0;i < volets.size();i++){
+      volets.get(i).ouvert = true;
+    }
+    anim_volet_ouvre = true;
+  }
+  if (hours == 23){
+    for (int i = 0;i < volets.size();i++){
+      fenetres.get(i).ouvert = false;
+      volets.get(i).ouvert = false;
+    }
+    anim_volet_ferme = true;
+  }
 }
 
 void checkTime(){
