@@ -10,12 +10,20 @@ class humain{
   }
 
 
-  void moveRight(){
-    this.x=x+5; 
+  void moveRight(int change){
+    this.x=x+change; 
   }
 
-  void moveLeft(){
-    this.x=x-5;
+  void moveLeft(int change){
+    this.x=x-change;
+  }
+  
+  void moveUp(int change){
+    this.y = y+change;
+  }
+  
+  void moveDown(int change){
+    this.y = y-change;
   }
 
   

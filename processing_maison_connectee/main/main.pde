@@ -1,14 +1,14 @@
-int decal, num_event,m, menu;
+int decal, num_event,m, menu, anim_proprio;
 
-PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,alarmeActivée,alarmeDésactivée,eau,electricite, paseau, paselectricite, laveVaisselleEnStandby, laveLingeEnStandby, secheLingeEnStandby,jeanBernard, policier_image;
+PImage secheLingeFerme, laveLingeFerme, laveVaisselleFerme, wood,tondeuseImage,voleurProcessing,telephoneProcessing,laveLingeOuvertProcessing,laveVaisselleProcessing,secheLingeOuvertProcessing,alarmeJardinActivée,alarmeJardinDésactivée,alarmeActivée,alarmeDésactivée,eau,electricite, paseau, paselectricite, laveVaisselleEnStandby, laveLingeEnStandby, secheLingeEnStandby,jeanBernard, policier_image,lune_image;
 
 ArrayList<Volets> volets = new ArrayList<Volets>();
 ArrayList<Fenetres> fenetres = new ArrayList<Fenetres>();
 
-boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre, proprietairePresent, policierPresent, anim_voleur;
+boolean anim_volet_ouvre, anim_volet_ferme, alarmeExterieurAlumée, water, power, voleurPresent,alarmeTotaleAlumée,tondre, proprietairePresent, policierPresent, anim_voleur, anim_policier, anim_arrest,approche;
 
 Button b_ouvre_fenetres, b_ferme_fenetres, b_ferme_volets, b_ouvre_volets, b_hours, b_minutes, voleurVient,voleurPart, coupureEau, coupureElectricite, allumerEau, allumerElectricite,bActLV, bActSL, bActLL, bdeactLV, bdeactSL, bdeactLL;
-Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_activetondeuse, brancherSeulementAlarmeExterieur, b_days, b_month;
+Button bMenuMachine, bMenuAlarme, bMenuTonte, bRetour, bVolets,activeToutAlarme, desactiveToutAlarme, brancherAlarmeTotale, debrancherAlarmeTotale, b_activetondeuse, brancherSeulementAlarmeExterieur, b_days, b_month, bProprio, bProprioQuitte;
 int hours = 0;
 int minutes = 0;
 int days = 0;
@@ -34,7 +34,7 @@ MachineEnStandby machineEnStandby;
 MachineArretStandby machineArretStandby;
 Ressource ressource;
 Fenetres ouveture_automatique;
-
+Proprietaire proprietaireApproche;
 void setup() {
 size(1400,850);
 background(125, 166, 232);
@@ -47,17 +47,21 @@ menu = 0;
 tondeuseImage = loadImage("tondeuseImage.jpg");
 tondeuse = new tondeuse(0,600,tondeuseImage );
 anim_voleur = false;
+anim_policier=false;
+proprietaireApproche = new Proprietaire();
+anim_proprio = 0;
 //humain
 voleurProcessing = loadImage("voleurProcessing.png");
 voleur = new humain(1200,500,voleurProcessing );
 jeanBernard = loadImage("JeanBernard.png");
 proprietaire = new humain(500,500,jeanBernard);
 policier_image = loadImage("policier.png");
-policier = new humain(1200,500,policier_image);
+policier = new humain(-100,500,policier_image);
+anim_arrest = false;
 //telephone
 telephoneProcessing = loadImage("telephoneProcessing.png");
 telephone = new telephone(200,0,telephoneProcessing);
-
+lune_image = loadImage("lune.png");
 //machine de la maison
 laveLingeOuvertProcessing = loadImage("laveLingeOuvertProcessing.png");
 laveLingeFerme = loadImage("machineALaverOuvert.png");
@@ -76,7 +80,8 @@ machineEnMarche = new MachineEnMarche();
 machineArret = new MachineArret();
 machineEnStandby = new MachineEnStandby();
 machineArretStandby = new MachineArretStandby();
-
+bProprio = new Button(700,800,180,40,"Proprietaire approche");
+bProprioQuitte = new Button(890,800,180,40,"Proprietaire s'éloigne");
 //alarme - jardin
 alarmeJardinActivée = loadImage("alarmeJardinActivée.png");
 alarmeJardinDésactivée = loadImage("alarmeJardinDésactivée.png");
@@ -155,6 +160,7 @@ coupureEau = new Button(815,480,140,30,"Coupure d'eau ");
 }
 
 void draw(){
+  
   
 if (hours <= 19 && hours >= 8){
 background(125, 166, 232);
@@ -397,7 +403,8 @@ secheLinge.vibrate();
 
 
 //humain
-if (voleurPresent == true){
+
+if (voleurPresent == true && !anim_arrest){
 voleur.displayHumain();
 alarmeTotale.activation = true;
 }
@@ -406,9 +413,10 @@ if (proprietairePresent == true){
 proprietaire.displayHumain();
 }
 
-if (policierPresent == true){
+if (policierPresent == true && !anim_arrest){
 policier.displayHumain();
 }
+
 //alarme - jardin
 if (alarmeTotale.activation){
 alarmeExterieur.activation = true;
@@ -428,6 +436,12 @@ else{image(paselectricite,770,375,50,50);
 
 
 //affichage des boutons
+bProprio.update_mouse();
+bProprioQuitte.update_mouse();
+bProprio.updatecolor(proprietaireApproche.proprietaire_gard(true));
+bProprioQuitte.updatecolor(proprietaireApproche.proprietaire_gard(false));
+bProprio.display();
+bProprioQuitte.display();
 bRetour.update_mouse();
 bRetour.updatecolor(true);
 if (menu == 0){
@@ -621,7 +635,7 @@ switch(num_event){
     num_event =-1;
     break;
   case 13:
-    voleurPresent = false;
+    anim_policier= true;
     alarmeTotale.DesactivateAlarm();
     
     alarmeExterieur.DesactivateAlarm();
@@ -664,6 +678,14 @@ switch(num_event){
     increaseMonth();
     num_event = -1;
     break;
+  //case where user come near
+  case 22:
+    anim_proprio = proprietaireApproche.run_proprietaire(proprietaireApproche.proprietaire_gard(approche));
+    num_event = 0;
+    break;
+  //case where user leaves home
+  case 23:
+    anim_proprio = proprietaireApproche.run_proprietaire(proprietaireApproche.proprietaire_gard(false));
 }
 if(tondre == true){
 tondeuse.movetondeuse(hours);}
@@ -694,13 +716,58 @@ if (anim_volet_ferme){
 
 if (anim_voleur){
   if (voleur.x >= 1100){
-  voleur.moveLeft();
+  voleur.moveLeft(10);
   voleur.displayHumain();
   } else{
+    voleur.displayHumain();
     voleurPresent = true;
+    anim_voleur = false;
   }
 }
 
+if(anim_policier){
+  if(policier.x <= 1100){
+  policier.moveRight(20);
+  }else{
+    policierPresent = true;
+    anim_policier = false;
+    anim_arrest = true;
+  }
+  policier.displayHumain();
+}
+
+if (anim_arrest){
+  if (voleur.x<=1400){
+    policier.moveRight(5);
+    voleur.moveRight(5);
+  } else{
+    voleur.x = 1200;
+    policier.x=-100;
+    policierPresent = false;
+    voleurPresent = false;
+    anim_arrest = false;
+  }
+  voleur.displayHumain();
+  policier.displayHumain();
+}
+
+if (anim_proprio==1){
+  if(proprietaire.y >= 600){
+    proprietaire.moveUp(5);
+  }else{
+    anim_proprio = 0;
+  }  
+}
+if (anim_proprio == 2){
+  if(proprietaire.y <= 900){
+    proprietaire.moveDown(5);
+  } else{
+    anim_proprio = 0;
+  }
+  proprietaire.displayHumain();
+}
+
+image(lune_image,100,100);
 }
 
 void mousePressed(){
@@ -741,4 +808,6 @@ void mousePressed(){
   if (b_activetondeuse.select()){num_event =19;}
   if (b_days.select()){num_event =20;}
   if (b_month.select()){num_event =21;}
+  if (bProprio.select()){num_event = 22;approche = true;}
+  if (bProprioQuitte.select()){num_event = 22;approche = false;}
 }
